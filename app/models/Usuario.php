@@ -101,4 +101,87 @@ VALUES(
 
     }
 
+    public function obtenerUsuarios()
+    {
+
+        $sql = "SELECT u.*, r.nombre_rol
+
+        FROM usuario u
+        JOIN rol r ON u.id_rol=r.id_rol";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+    public function obtenerUsuarioPorId($id)
+    {
+
+        $sql = "SELECT * FROM usuario
+WHERE id_usuario=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+
+            ':id' => $id
+
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    }
+
+    public function actualizarUsuario(
+
+        $id,
+        $nombre,
+        $apellidoPaterno,
+        $apellidoMaterno,
+        $correo
+
+    ) {
+
+        $sql = "UPDATE usuario SET
+
+nombre=:nombre,
+apellido_paterno=:ap,
+apellido_materno=:am,
+correo=:correo
+
+WHERE id_usuario=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+
+            ':nombre' => $nombre,
+            ':ap' => $apellidoPaterno,
+            ':am' => $apellidoMaterno,
+            ':correo' => $correo,
+            ':id' => $id
+
+        ]);
+
+    }
+
+    public function eliminarUsuario($id)
+    {
+
+        $sql = "DELETE FROM usuario
+WHERE id_usuario=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+
+            ':id' => $id
+
+        ]);
+
+    }
+
 }

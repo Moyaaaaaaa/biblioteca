@@ -3,20 +3,32 @@
 class AuthController extends Controller
 {
 
-    // Mostrar formulario login
+    // ============================
+    // MOSTRAR LOGIN
+    // ============================
+
     public function login()
     {
 
-        // si ya inició sesión lo mandamos al dashboard
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
+        // si ya inició sesión
         if (isset($_SESSION['usuario'])) {
 
-            header("Location: " . BASE_URL . "DashboardController/index");
-            exit;
+            // si es administrador
+            if ($_SESSION['usuario']['id_rol'] == 1) {
 
+                header("Location: " . BASE_URL . "AdminController/index");
+
+            } else {
+
+                header("Location: " . BASE_URL . "DashboardController/index");
+
+            }
+
+            exit;
         }
 
         $this->view('auth/login');
@@ -24,7 +36,11 @@ class AuthController extends Controller
     }
 
 
-    // Procesar login
+
+    // ============================
+    // AUTENTICAR LOGIN
+    // ============================
+
     public function autenticar()
     {
 
@@ -32,7 +48,7 @@ class AuthController extends Controller
             session_start();
         }
 
-        // validar que existan datos POST
+        // validar POST
         if (
 
             empty($_POST['username']) ||
@@ -54,12 +70,23 @@ class AuthController extends Controller
 
         );
 
-        // si login correcto
+
+        // LOGIN CORRECTO
         if ($usuario) {
 
             $_SESSION['usuario'] = $usuario;
 
-            header("Location: " . BASE_URL . "DashboardController/index");
+            // ADMINISTRADOR
+            if ($usuario['id_rol'] == 1) {
+
+                header("Location: " . BASE_URL . "AdminController/index");
+
+            } else {
+
+                header("Location: " . BASE_URL . "DashboardController/index");
+
+            }
+
             exit;
 
         }
@@ -69,7 +96,11 @@ class AuthController extends Controller
     }
 
 
-    // cerrar sesión
+
+    // ============================
+    // CERRAR SESIÓN
+    // ============================
+
     public function logout()
     {
 
@@ -80,42 +111,74 @@ class AuthController extends Controller
         session_destroy();
 
         header("Location: " . BASE_URL . "AuthController/login");
+
         exit;
 
     }
 
-    // mostrar formulario registro
-    public function registro(){
 
-    $rolModel = $this->model('Rol');
 
-    $roles = $rolModel->obtenerRoles();
+    // ============================
+    // FORMULARIO REGISTRO
+    // ============================
 
-    $this->view('auth/registro', $roles);
+    public function registro()
+    {
 
-}
+        $rolModel = $this->model('Rol');
 
-    public function guardarUsuario(){
+        $roles = $rolModel->obtenerRoles();
 
-    $usuarioModel=$this->model('Usuario');
+        $this->view('auth/registro', $roles);
 
-    $usuarioModel->crearUsuario(
+    }
 
-        $_POST['nombre'],
-        $_POST['apellido_paterno'],
-        $_POST['apellido_materno'],
-        $_POST['username'],
-        $_POST['correo'],
-        $_POST['contrasenia'],
-        $_POST['fecha_nacimiento'],
-        $_POST['id_rol']
 
-    );
 
-    header("Location: ".BASE_URL."AuthController/login");
+    // ============================
+    // GUARDAR USUARIO
+    // ============================
 
-    exit;
+    public function guardarUsuario()
+    {
 
-}
+        // validar campos básicos
+        if (
+
+            empty($_POST['nombre']) ||
+            empty($_POST['apellido_paterno']) ||
+            empty($_POST['username']) ||
+            empty($_POST['correo']) ||
+            empty($_POST['contrasenia']) ||
+            empty($_POST['fecha_nacimiento']) ||
+            empty($_POST['id_rol'])
+
+        ) {
+
+            echo "Campos incompletos";
+            return;
+
+        }
+
+        $usuarioModel = $this->model('Usuario');
+
+        $usuarioModel->crearUsuario(
+
+            $_POST['nombre'],
+            $_POST['apellido_paterno'],
+            $_POST['apellido_materno'] ?? null,
+            $_POST['username'],
+            $_POST['correo'],
+            $_POST['contrasenia'],
+            $_POST['fecha_nacimiento'],
+            $_POST['id_rol']
+
+        );
+
+        header("Location: " . BASE_URL . "AuthController/login");
+
+        exit;
+
+    }
 
 }
