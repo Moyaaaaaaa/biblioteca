@@ -20,14 +20,27 @@ Cerrar sesión
 
 <ul>
 
-<li><a href="#">Usuarios</a></li>
 
-<li><a href="#">Autores</a></li>
+<li>
+    <a href="<?= BASE_URL ?>AutorController/index">
+        Autores
+    </a>
+</li>
 
-<li><a href="#">Libros</a></li>
+<li>
+    <a href="<?= BASE_URL ?>LibroController/catalogo">
+        Libros
+    </a>
+</li>
 
-<li><a href="#">Préstamos</a></li>
+<li>
+    <a href="<?= BASE_URL ?>PrestamoController/misPrestamos">
+        Préstamos
+    </a>
+</li>
 
-<li><a href="#">Devoluciones</a></li>
-
-</ul>
+<li>
+    <a href="<?= BASE_URL ?>DevolucionController/misDevoluciones">
+        Devoluciones
+    </a>
+</li>

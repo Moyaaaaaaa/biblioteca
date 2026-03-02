@@ -1,6 +1,6 @@
 <?php
 
-class LibroController extends Controller {
+class AutorController extends Controller {
 
     public function __construct(){
 
@@ -14,15 +14,13 @@ class LibroController extends Controller {
         }
     }
 
-    public function catalogo(){
+    public function index(){
 
-        $libroModel = $this->model('Libro');
-        $libros = $libroModel->catalogoUsuario();
+        $autorModel = $this->model('Autor');
+        $autores = $autorModel->listarAutores();
 
-        $this->view('usuario/catalogo',[
-            'libros'=>$libros
+        $this->view('usuario/autores',[
+            'autores'=>$autores
         ]);
     }
-
-
 }
