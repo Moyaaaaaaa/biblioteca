@@ -26,4 +26,20 @@ class DevolucionController extends Controller {
             'devoluciones' => $devoluciones
         ]);
     }
+
+    public function devolver(){
+
+    if(!isset($_POST['id_prestamo'])){
+        header("Location: ".BASE_URL."PrestamoController/misPrestamos");
+        exit;
+    }
+
+    $id_prestamo = $_POST['id_prestamo'];
+
+    $devolucionModel = $this->model('Devolucion');
+    $devolucionModel->procesarDevolucion($id_prestamo);
+
+    header("Location: ".BASE_URL."PrestamoController/misPrestamos");
+    exit;
+}
 }

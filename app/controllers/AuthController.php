@@ -9,30 +9,27 @@ class AuthController extends Controller
 
     public function login()
     {
-
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        // si ya inició sesión
         if (isset($_SESSION['usuario'])) {
 
-            // si es administrador
             if ($_SESSION['usuario']['id_rol'] == 1) {
 
                 header("Location: " . BASE_URL . "AdminController/index");
+            } elseif ($_SESSION['usuario']['id_rol'] == 5) {
 
+                header("Location: " . BASE_URL . "BibliotecarioController/index");
             } else {
 
                 header("Location: " . BASE_URL . "DashboardController/index");
-
             }
 
             exit;
         }
 
         $this->view('auth/login');
-
     }
 
 
@@ -43,56 +40,51 @@ class AuthController extends Controller
 
     public function autenticar()
     {
-
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        // validar POST
+        // Validar campos
         if (
-
             empty($_POST['username']) ||
             empty($_POST['contrasenia'])
-
         ) {
-
             echo "Campos vacíos";
             return;
-
         }
 
         $usuarioModel = $this->model('Usuario');
 
         $usuario = $usuarioModel->login(
-
             $_POST['username'],
             $_POST['contrasenia']
-
         );
 
-
-        // LOGIN CORRECTO
+        // Si login es correcto
         if ($usuario) {
 
             $_SESSION['usuario'] = $usuario;
 
-            // ADMINISTRADOR
+            // 🔹 ADMINISTRADOR
             if ($usuario['id_rol'] == 1) {
 
                 header("Location: " . BASE_URL . "AdminController/index");
 
+                // 🔹 BIBLIOTECARIO
+            } elseif ($usuario['id_rol'] == 5) {
+
+                header("Location: " . BASE_URL . "BibliotecarioController/index");
+
+                // 🔹 TODOS LOS DEMÁS ROLES
             } else {
 
                 header("Location: " . BASE_URL . "DashboardController/index");
-
             }
 
             exit;
-
         }
 
         echo "Credenciales incorrectas";
-
     }
 
 
@@ -113,7 +105,6 @@ class AuthController extends Controller
         header("Location: " . BASE_URL . "AuthController/login");
 
         exit;
-
     }
 
 
@@ -130,7 +121,6 @@ class AuthController extends Controller
         $roles = $rolModel->obtenerRoles();
 
         $this->view('auth/registro', $roles);
-
     }
 
 
@@ -157,7 +147,6 @@ class AuthController extends Controller
 
             echo "Campos incompletos";
             return;
-
         }
 
         $usuarioModel = $this->model('Usuario');
@@ -178,7 +167,5 @@ class AuthController extends Controller
         header("Location: " . BASE_URL . "AuthController/login");
 
         exit;
-
     }
-
 }
