@@ -1,4 +1,4 @@
-*********<h2>Catálogo Biblioteca</h2>
+<h2>Catálogo Biblioteca</h2>
 
 <table border="1">
     <tr>
@@ -17,7 +17,7 @@
             <td><?= $libro['titulo'] ?></td>
             <td><?= $libro['isbn'] ?></td>
             <td><?= $libro['anio_publicacion'] ?></td>
-            <td><?= $libro['autores'] ?></td>
+            <td><?= $libro['autores'] ?? 'Sin autor' ?></td>
             <td><?= $libro['total_ejemplares'] ?></td>
             <td><?= $libro['disponibles'] ?></td>
 

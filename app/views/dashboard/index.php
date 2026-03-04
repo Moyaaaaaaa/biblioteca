@@ -2,9 +2,9 @@
 
 <p>
 
-Bienvenido:
+    Bienvenido:
 
-<?= $_SESSION['usuario']['nombre'] ?>
+    <?= $_SESSION['usuario']['nombre'] ?>
 
 </p>
 
@@ -12,7 +12,7 @@ Bienvenido:
 
 <a href="<?= BASE_URL ?>AuthController/logout">
 
-Cerrar sesión
+    Cerrar sesión
 
 </a>
 
@@ -21,32 +21,34 @@ Cerrar sesión
 <ul>
 
 
-<li>
-    <a href="<?= BASE_URL ?>AutorController/index">
-        Autores
-    </a>
-</li>
+    <li>
+        <a href="<?= BASE_URL ?>AutorController/index">
+            Autores
+        </a>
+    </li>
 
-<li>
-    <a href="<?= BASE_URL ?>LibroController/catalogo">
-        Libros
-    </a>
-</li>
+    <li>
+        <a href="<?= BASE_URL ?>LibroController/catalogo">
+            Libros
+        </a>
+    </li>
 
-<li>
-    <a href="<?= BASE_URL ?>PrestamoController/misPrestamos">
-        Préstamos
-    </a>
-</li>
+    <li>
+        <a href="<?= BASE_URL ?>PrestamoController/misPrestamos">
+            Préstamos
+        </a>
+    </li>
 
-<li>
-    <a href="<?= BASE_URL ?>DevolucionController/misDevoluciones">
-        Devoluciones
-    </a>
-</li>
+    <li>
+        <a href="<?= BASE_URL ?>DevolucionController/misDevoluciones">
+            Devoluciones
+        </a>
+    </li>
 
-<li>
-    <a href="<?= BASE_URL ?>MultaController/misMultas">
-        Multas
-    </a>
-</li>
+    <li>
+        <a href="<?= BASE_URL ?>MultaController/misMultas">
+            Multas
+        </a>
+    </li>
+
+    <li><a href="<?= BASE_URL ?>NotificacionController/index">Notificaciones</a></li>

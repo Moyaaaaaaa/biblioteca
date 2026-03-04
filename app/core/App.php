@@ -2,89 +2,87 @@
 
 require_once 'AuthMiddleware.php';
 
-class App {
+class App
+{
 
-    protected $controller='AuthController';
+    protected $controller = 'AuthController';
 
-    protected $method='login';
+    protected $method = 'login';
 
-    protected $params=[];
+    protected $params = [];
 
-    public function __construct(){
+    public function __construct()
+    {
 
-        $url=$this->parseUrl();
+        $url = $this->parseUrl();
 
         // CONTROLLER
-        if(isset($url[0])){
+        if (isset($url[0])) {
 
-            $archivo='../app/controllers/'.$url[0].'.php';
+            $archivo = '../app/controllers/' . $url[0] . '.php';
 
-            if(file_exists($archivo)){
+            if (file_exists($archivo)) {
 
-                $this->controller=$url[0];
+                $this->controller = $url[0];
 
                 unset($url[0]);
-
             }
-
         }
 
-        require_once '../app/controllers/'.$this->controller.'.php';
+        require_once '../app/controllers/' . $this->controller . '.php';
 
-        $this->controller=new $this->controller;
+        $this->controller = new $this->controller;
 
         // METHOD
-        if(isset($url[1])){
+        // METHOD
+        if (isset($url[1]) && method_exists($this->controller, $url[1])) {
 
-            if(method_exists($this->controller,$url[1])){
+            $this->method = $url[1];
+            unset($url[1]);
+        } else {
 
-                $this->method=$url[1];
-
-                unset($url[1]);
-
+            // si no existe método usa el método por defecto del controller
+            if (!method_exists($this->controller, $this->method)) {
+                $this->method = 'index';
             }
-
         }
 
-        $this->params=$url ? array_values($url):[];
+        $this->params = $url ? array_values($url) : [];
 
         // ====== MIDDLEWARE AUTOMATICO ======
 
         // NO proteger login
-        if(!($this->controller instanceof AuthController)){
+        if (!($this->controller instanceof AuthController)) {
 
             AuthMiddleware::verificar();
-
         }
 
         call_user_func_array(
 
-            [$this->controller,$this->method],
+            [$this->controller, $this->method],
 
             $this->params
 
         );
-
     }
 
-    public function parseUrl(){
+    public function parseUrl()
+    {
 
-        if(isset($_GET['url'])){
+        if (isset($_GET['url'])) {
 
-            return explode('/',
+            return explode(
+                '/',
 
                 filter_var(
 
-                    rtrim($_GET['url'],'/'),
+                    rtrim($_GET['url'], '/'),
 
                     FILTER_SANITIZE_URL
 
                 )
 
             );
-
         }
-
     }
-
 }
