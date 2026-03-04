@@ -13,3 +13,7 @@
 <a href="<?= BASE_URL ?>AuthController/logout">
     Cerrar sesión
 </a>
+
+<a href="<?= BASE_URL ?>MultaController/index">
+Panel de multas
+</a>

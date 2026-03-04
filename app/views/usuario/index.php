@@ -1,33 +1,73 @@
-<h1>Usuarios</h1>
+<h2>Panel de Usuario</h2>
 
-<a href="<?= BASE_URL ?>UsuarioController/create">
+<?php if(!empty($data['multasPendientes'])): ?>
 
-Nuevo Usuario
+<div style="background:#ffcccc;padding:10px;margin-bottom:20px">
 
+<b>⚠ Tienes multas pendientes.</b><br>
+
+No puedes solicitar nuevos préstamos hasta que el bibliotecario registre el pago.
+
+<br><br>
+
+<a href="<?= BASE_URL ?>MultaController/misMultas">
+Ver mis multas
 </a>
 
-<table border="1">
+</div>
 
-<tr>
+<?php endif; ?>
 
-<th>ID</th>
-<th>Usuario</th>
-<th>Rol</th>
+<hr>
 
-</tr>
+<h3>Opciones disponibles</h3>
 
-<?php foreach($usuarios as $u): ?>
+<ul>
 
-<tr>
+<li>
+<a href="<?= BASE_URL ?>LibroController/catalogo">
+📚 Ver libros disponibles
+</a>
+</li>
 
-<td><?= $u->id_usuario ?></td>
+<li>
+<a href="<?= BASE_URL ?>PrestamoController/misPrestamos">
+📖 Ver mis préstamos
+</a>
+</li>
 
-<td><?= $u->usuario ?></td>
+<li>
+<a href="<?= BASE_URL ?>DevolucionController/misDevoluciones">
+📜 Ver historial de devoluciones
+</a>
+</li>
 
-<td><?= $u->nombre_rol ?></td>
+<li>
+<a href="<?= BASE_URL ?>MultaController/misMultas">
+💰 Ver mis multas
+</a>
+</li>
 
-</tr>
+<li>
+<a href="<?= BASE_URL ?>AutorController/index">
+✍️ Ver autores
+</a>
+</li>
 
-<?php endforeach; ?>
+<li>
+<a href="<?= BASE_URL ?>NotificacionController/index">
+🔔 Ver notificaciones
+</a>
+</li>
 
-</table>
+<li>
+<a href="<?= BASE_URL ?>AuthController/logout">
+🚪 Cerrar sesión
+</a>
+</li>
+
+<a href="<?= BASE_URL ?>CategoriaController/index">
+Ver categorías
+</a>
+
+</ul>

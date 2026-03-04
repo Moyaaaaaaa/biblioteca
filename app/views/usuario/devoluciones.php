@@ -3,9 +3,13 @@
 <table border="1">
 
 <tr>
-    <th>Libro</th>
-    <th>Fecha Devolución</th>
-    <th>Estado</th>
+<th>Libro</th>
+<th>Código Ejemplar</th>
+<th>Fecha préstamo</th>
+<th>Fecha devolución</th>
+<th>Días retraso</th>
+<th>Condición devuelta</th>
+<th>Multa</th>
 </tr>
 
 <?php foreach($data['devoluciones'] as $d): ?>
@@ -14,19 +18,35 @@
 
 <td><?= $d['titulo'] ?></td>
 
+<td><?= $d['codigo_etiqueta'] ?></td>
+
+<td><?= $d['fecha_prestamo'] ?></td>
+
 <td><?= $d['fecha_devolucion'] ?></td>
 
 <td>
 
-<?php if($d['dias_retraso'] > 0): ?>
+<?php
+if($d['dias_retraso'] > 0){
+echo "Retraso de ".$d['dias_retraso']." días";
+}else{
+echo "Sin retraso";
+}
+?>
 
-Devolución tardía (<?= $d['dias_retraso'] ?> días)
+</td>
 
-<?php else: ?>
+<td><?= $d['condicion'] ?></td>
 
-Devuelto a tiempo
+<td>
 
-<?php endif; ?>
+<?php
+if($d['monto_total']){
+echo "$".$d['monto_total'];
+}else{
+echo "Sin multa";
+}
+?>
 
 </td>
 

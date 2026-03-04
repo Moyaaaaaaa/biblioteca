@@ -52,6 +52,13 @@ class PrestamoController extends Controller
         // crear préstamo
         $prestamoModel = $this->model('Prestamo');
         $resultado = $prestamoModel->crearPrestamo($id_usuario, $id_libro);
+        if ($resultado === "multa_pendiente") {
+
+            echo "No puedes solicitar préstamos hasta pagar tus multas.";
+
+            exit;
+
+        }
 
         if ($resultado) {
 

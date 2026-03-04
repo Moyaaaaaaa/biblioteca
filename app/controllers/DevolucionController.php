@@ -35,6 +35,7 @@ class DevolucionController extends Controller
         $condicion_devuelta = $_POST['condicion_devuelta'];
 
         $prestamoModel = $this->model('Prestamo');
+
         $resultado = $prestamoModel->devolver($id_prestamo, $condicion_devuelta);
 
         if ($resultado) {
@@ -45,24 +46,15 @@ class DevolucionController extends Controller
 
                 $mensaje = "El libro '" . $resultado['titulo'] . "' fue devuelto correctamente.";
 
-                $notificacion->crear(
-                    $resultado['id_usuario'],
-                    $mensaje
-                );
             } else {
 
-                $mensaje = "Se ha generado una multa de $" . $resultado['monto'] .
-                    " por devolución tardía del libro '" . $resultado['titulo'] . "'.";
-
-                $notificacion->crear(
-                    $resultado['id_usuario'],
-                    $mensaje
-                );
+                $mensaje = "Se generó una multa de $" . $resultado['monto'] . " por daño o retraso del libro '" . $resultado['titulo'] . "'.";
             }
+
+            $notificacion->crear($resultado['id_usuario'], $mensaje);
         }
 
         header("Location: " . BASE_URL . "BibliotecarioController/prestamosActivos");
-        exit;
     }
     public function misDevoluciones()
     {
@@ -77,4 +69,6 @@ class DevolucionController extends Controller
             'devoluciones' => $devoluciones
         ]);
     }
+
+
 }

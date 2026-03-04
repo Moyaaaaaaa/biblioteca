@@ -1,23 +1,20 @@
 <?php
 
-class DashboardController extends Controller {
+class DashboardController extends Controller
+{
 
-    public function index(){
+    public function index()
+    {
 
-        if(session_status() === PHP_SESSION_NONE){
-            session_start();
-        }
+        $multaModel = $this->model('Multa');
 
-        // bloquear acceso directo
-        if(!isset($_SESSION['usuario'])){
+        $multasPendientes = $multaModel->multasUsuarioPendientes(
+            $_SESSION['usuario']['id_usuario']
+        );
 
-            header("Location: ".BASE_URL."AuthController/login");
-
-            exit;
-
-        }
-
-        $this->view('dashboard/index');
+        $this->view('usuario/index', [
+            'multasPendientes' => $multasPendientes
+        ]);
 
     }
 

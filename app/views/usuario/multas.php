@@ -1,36 +1,44 @@
 <h2>Mis Multas</h2>
 
-<?php if(empty($data['multas'])): ?>
-
-    <p>No tienes multas registradas</p>
-
-<?php else: ?>
-
 <table border="1">
-    <tr>
-        <th>Libro</th>
-        <th>Monto</th>
-        <th>Fecha Devolución</th>
-        <th>Estado</th>
-    </tr>
 
-    <?php foreach($data['multas'] as $multa): ?>
+<tr>
+<th>Libro</th>
+<th>Motivo</th>
+<th>Monto</th>
+<th>Estado</th>
+</tr>
 
-        <tr>
-            <td><?= $multa['titulo'] ?></td>
-            <td>$<?= $multa['monto_total'] ?></td>
-            <td><?= $multa['fecha_devolucion'] ?></td>
-            <td>
-                <?php if($multa['pagada']): ?>
-                    Pagada 
-                <?php else: ?>
-                    Pendiente 
-                <?php endif; ?>
-            </td>
-        </tr>
+<?php foreach($data['multas'] as $m): ?>
 
-    <?php endforeach; ?>
+<tr>
+
+<td><?= $m['titulo'] ?></td>
+
+<td><?= $m['motivos'] ?></td>
+
+<td>$<?= $m['monto_total'] ?></td>
+
+<td>
+
+<?php
+if($m['pagada']==0){
+echo "Pendiente";
+}else{
+echo "Pagada";
+}
+?>
+
+</td>
+
+</tr>
+
+<?php endforeach; ?>
 
 </table>
 
-<?php endif; ?>
+<br>
+
+<a href="<?= BASE_URL ?>DashboardController/index">
+Volver
+</a>

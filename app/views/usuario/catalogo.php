@@ -6,6 +6,7 @@
         <th>ISBN</th>
         <th>Año</th>
         <th>Autor(es)</th>
+        <th>Categoría</th>
         <th>Total Ejemplares</th>
         <th>Disponibles</th>
         <th>Acción</th>
@@ -18,6 +19,7 @@
             <td><?= $libro['isbn'] ?></td>
             <td><?= $libro['anio_publicacion'] ?></td>
             <td><?= $libro['autores'] ?? 'Sin autor' ?></td>
+            <td><?= $libro['categoria'] ?></td>
             <td><?= $libro['total_ejemplares'] ?></td>
             <td><?= $libro['disponibles'] ?></td>
 
