@@ -54,4 +54,62 @@ GROUP BY l.id_libro";
 
     }
 
+    public function crear($categoria)
+    {
+
+        $sql = "INSERT INTO categoria
+                (categoria)
+                VALUES
+                (:categoria)";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':categoria' => $categoria
+        ]);
+    }
+
+    public function obtenerPorId($id)
+    {
+
+        $sql = "SELECT * FROM categoria
+                WHERE id_categoria=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function actualizar($id, $categoria)
+    {
+
+        $sql = "UPDATE categoria
+                SET categoria=:categoria
+                WHERE id_categoria=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':categoria' => $categoria,
+            ':id' => $id
+        ]);
+    }
+
+    public function eliminar($id)
+    {
+
+        $sql = "DELETE FROM categoria
+                WHERE id_categoria=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id
+        ]);
+    }
+
 }

@@ -1,19 +1,41 @@
-<h1>Panel Bibliotecario</h1>
+<h2>Panel del Bibliotecario</h2>
 
-<p>Bienvenido: <?= $_SESSION['usuario']['nombre'] ?></p>
+<ul>
 
-<br>
+<li>
+<a href="<?= BASE_URL ?>BibliotecarioLibroController/index">
+Gestionar Libros
+</a>
+</li>
 
+<li>
+<a href="<?= BASE_URL ?>BibliotecarioEjemplarController/index">
+Gestionar Ejemplares
+</a>
+</li>
+
+<li>
+<a href="<?= BASE_URL ?>BibliotecarioAutorController/index">
+Gestionar Autores
+</a>
+</li>
+
+<li>
+<a href="<?= BASE_URL ?>BibliotecarioCategoriaController/index">
+Gestionar Categorías
+</a>
+</li>
+
+<li>
 <a href="<?= BASE_URL ?>BibliotecarioController/prestamosActivos">
-    Ver Préstamos Activos
+Préstamos Activos
 </a>
+</li>
 
-<br><br>
-
-<a href="<?= BASE_URL ?>AuthController/logout">
-    Cerrar sesión
-</a>
-
+<li>
 <a href="<?= BASE_URL ?>MultaController/index">
-Panel de multas
+Gestión de Multas
 </a>
+</li>
+
+</ul>

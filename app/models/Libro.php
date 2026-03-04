@@ -67,4 +67,95 @@ class Libro
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function crear($titulo, $isbn, $anio, $categoria)
+    {
+
+        $sql = "INSERT INTO libro
+                (titulo,isbn,anio_publicacion,id_categoria)
+                VALUES
+                (:titulo,:isbn,:anio,:categoria)";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':titulo' => $titulo,
+            ':isbn' => $isbn,
+            ':anio' => $anio,
+            ':categoria' => $categoria
+        ]);
+    }
+
+    public function obtenerPorId($id)
+    {
+
+        $sql = "SELECT * FROM libro
+                WHERE id_libro=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function actualizar($id, $titulo, $isbn, $anio, $categoria)
+    {
+
+        $sql = "UPDATE libro
+                SET titulo=:titulo,
+                    isbn=:isbn,
+                    anio_publicacion=:anio,
+                    id_categoria=:categoria
+                WHERE id_libro=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':titulo' => $titulo,
+            ':isbn' => $isbn,
+            ':anio' => $anio,
+            ':categoria' => $categoria,
+            ':id' => $id
+        ]);
+    }
+
+    public function eliminar($id)
+    {
+
+        $sql = "DELETE FROM libro
+                WHERE id_libro=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id
+        ]);
+    }
+
+    public function autoresLibro($id_libro)
+    {
+
+        $sql = "SELECT id_autor
+                FROM libro_autor
+                WHERE id_libro=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id_libro
+        ]);
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $ids = [];
+
+        foreach ($result as $r) {
+            $ids[] = $r['id_autor'];
+        }
+
+        return $ids;
+    }
 }
