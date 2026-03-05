@@ -15,16 +15,18 @@ class Autor
     {
 
         $sql = "
-            SELECT 
-                a.id_autor,
-                a.nombre,
-                a.apellido_paterno,
-                a.apellido_materno,
-                a.nacionalidad,
-                COUNT(la.id_libro) AS total_libros
-            FROM autor a
-            LEFT JOIN libro_autor la ON a.id_autor = la.id_autor
-            GROUP BY a.id_autor
+        SELECT 
+            a.id_autor,
+            a.nombre,
+            a.apellido_paterno,
+            a.apellido_materno,
+            a.nacionalidad,
+            COUNT(la.id_libro) AS total_libros
+        FROM autor a
+        LEFT JOIN libro_autor la 
+        ON a.id_autor = la.id_autor
+        GROUP BY a.id_autor
+        ORDER BY a.nombre
         ";
 
         $stmt = $this->db->prepare($sql);
@@ -33,29 +35,30 @@ class Autor
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function crear($titulo, $isbn, $anio, $categoria)
+    public function todos()
     {
 
-        $sql = "INSERT INTO libro
-                (titulo,isbn,anio_publicacion,id_categoria)
-                VALUES
-                (:titulo,:isbn,:anio,:categoria)";
+        $sql = "SELECT 
+                id_autor,
+                nombre,
+                apellido_paterno,
+                apellido_materno,
+                nacionalidad
+                FROM autor
+                ORDER BY nombre";
 
         $stmt = $this->db->prepare($sql);
+        $stmt->execute();
 
-        $stmt->execute([
-            ':titulo' => $titulo,
-            ':isbn' => $isbn,
-            ':anio' => $anio,
-            ':categoria' => $categoria
-        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function obtenerPorId($id)
+    public function obtener($id)
     {
 
-        $sql = "SELECT * FROM libro
-                WHERE id_libro=:id";
+        $sql = "SELECT *
+                FROM autor
+                WHERE id_autor = :id";
 
         $stmt = $this->db->prepare($sql);
 
@@ -66,23 +69,41 @@ class Autor
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function actualizar($id, $titulo, $isbn, $anio, $categoria)
+    public function crear($nombre,$ap,$am,$nacionalidad)
     {
 
-        $sql = "UPDATE libro
-                SET titulo=:titulo,
-                    isbn=:isbn,
-                    anio_publicacion=:anio,
-                    id_categoria=:categoria
-                WHERE id_libro=:id";
+        $sql = "INSERT INTO autor
+                (nombre,apellido_paterno,apellido_materno,nacionalidad)
+                VALUES
+                (:nombre,:ap,:am,:nacionalidad)";
 
         $stmt = $this->db->prepare($sql);
 
         $stmt->execute([
-            ':titulo' => $titulo,
-            ':isbn' => $isbn,
-            ':anio' => $anio,
-            ':categoria' => $categoria,
+            ':nombre' => $nombre,
+            ':ap' => $ap,
+            ':am' => $am,
+            ':nacionalidad' => $nacionalidad
+        ]);
+    }
+
+    public function actualizar($id,$nombre,$ap,$am,$nacionalidad)
+    {
+
+        $sql = "UPDATE autor
+                SET nombre = :nombre,
+                    apellido_paterno = :ap,
+                    apellido_materno = :am,
+                    nacionalidad = :nacionalidad
+                WHERE id_autor = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':nombre' => $nombre,
+            ':ap' => $ap,
+            ':am' => $am,
+            ':nacionalidad' => $nacionalidad,
             ':id' => $id
         ]);
     }
@@ -90,8 +111,8 @@ class Autor
     public function eliminar($id)
     {
 
-        $sql = "DELETE FROM libro
-                WHERE id_libro=:id";
+        $sql = "DELETE FROM autor
+                WHERE id_autor = :id";
 
         $stmt = $this->db->prepare($sql);
 
@@ -100,61 +121,27 @@ class Autor
         ]);
     }
 
-    public function autoresLibro($id_libro)
+    public function librosAutor($id_autor)
     {
 
-        $sql = "SELECT id_autor
-                FROM libro_autor
-                WHERE id_libro=:id";
+        $sql = "
+        SELECT 
+        l.id_libro,
+        l.titulo,
+        l.anio_publicacion
+        FROM libro l
+        INNER JOIN libro_autor la
+        ON l.id_libro = la.id_libro
+        WHERE la.id_autor = :id
+        ";
 
         $stmt = $this->db->prepare($sql);
 
         $stmt->execute([
-            ':id' => $id_libro
+            ':id' => $id_autor
         ]);
 
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $ids = [];
-
-        foreach ($result as $r) {
-            $ids[] = $r['id_autor'];
-        }
-
-        return $ids;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function todos(){
 
-$sql = "SELECT 
-id_autor,
-nombre,
-apellido_paterno,
-apellido_materno,
-nacionalidad
-FROM autor
-ORDER BY nombre";
-
-$stmt = $this->db->prepare($sql);
-
-$stmt->execute();
-
-return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-}
-
-    public function obtener($id)
-    {
-
-        $sql = "SELECT * FROM autor
-WHERE id_autor=:id";
-
-        $stmt = $this->db->prepare($sql);
-
-        $stmt->execute([
-            ':id' => $id
-        ]);
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-
-    }
 }

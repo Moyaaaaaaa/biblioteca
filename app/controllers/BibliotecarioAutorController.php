@@ -19,7 +19,7 @@ class BibliotecarioAutorController extends Controller {
 
         $autorModel = $this->model('Autor');
 
-        $autores = $autorModel->todos();
+        $autores = $autorModel->listarAutores();
 
         $this->view('bibliotecario/autores/index',[
             'autores'=>$autores
@@ -37,7 +37,12 @@ class BibliotecarioAutorController extends Controller {
 
         $autorModel = $this->model('Autor');
 
-        $autorModel->crear($_POST['nombre']);
+        $autorModel->crear(
+            $_POST['nombre'],
+            $_POST['apellido_paterno'],
+            $_POST['apellido_materno'],
+            $_POST['nacionalidad']
+        );
 
         header("Location: ".BASE_URL."BibliotecarioAutorController/index");
         exit;
@@ -48,7 +53,7 @@ class BibliotecarioAutorController extends Controller {
 
         $autorModel = $this->model('Autor');
 
-        $autor = $autorModel->obtenerPorId($id);
+        $autor = $autorModel->obtener($id);
 
         $this->view('bibliotecario/autores/editar',[
             'autor'=>$autor
@@ -62,7 +67,10 @@ class BibliotecarioAutorController extends Controller {
 
         $autorModel->actualizar(
             $_POST['id_autor'],
-            $_POST['nombre']
+            $_POST['nombre'],
+            $_POST['apellido_paterno'],
+            $_POST['apellido_materno'],
+            $_POST['nacionalidad']
         );
 
         header("Location: ".BASE_URL."BibliotecarioAutorController/index");

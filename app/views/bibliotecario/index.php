@@ -39,6 +39,18 @@ Gestión de Multas
 </li>
 
 <li>
+<a href="<?= BASE_URL ?>BibliotecarioController/prestamosActivos">
+Gestionar devoluciones
+</a>
+</li>
+
+<li>
+<a href="<?= BASE_URL ?>BibliotecarioEditorialController/index">
+Gestionar editoriales
+</a>
+</li>
+
+<li>
 <a href="<?= BASE_URL ?>AuthController/logout">
 🚪 Cerrar sesión
 </a>

@@ -35,6 +35,11 @@ class BibliotecarioCategoriaController extends Controller {
 
     public function guardar(){
 
+        if(empty($_POST['categoria'])){
+            header("Location: ".BASE_URL."BibliotecarioCategoriaController/crear");
+            exit;
+        }
+
         $categoriaModel = $this->model('Categoria');
 
         $categoriaModel->crear($_POST['categoria']);
@@ -49,6 +54,11 @@ class BibliotecarioCategoriaController extends Controller {
         $categoriaModel = $this->model('Categoria');
 
         $categoria = $categoriaModel->obtenerPorId($id);
+
+        if(!$categoria){
+            header("Location: ".BASE_URL."BibliotecarioCategoriaController/index");
+            exit;
+        }
 
         $this->view('bibliotecario/categorias/editar',[
             'categoria'=>$categoria

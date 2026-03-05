@@ -16,13 +16,10 @@
 
 <tr>
 
-<td><?= $m['nombre'] ?></td>
-
-<td><?= $m['titulo'] ?></td>
-
-<td><?= $m['codigo_etiqueta'] ?></td>
-
-<td><?= $m['motivos'] ?></td>
+<td><?= $m['usuario'] ?></td>
+<td><?= $m['libro'] ?></td>
+<td><?= $m['ejemplar'] ?></td>
+<td><?= $m['motivos'] ?? 'Sin motivo' ?></td>
 
 <td>$<?= $m['monto_total'] ?></td>
 
