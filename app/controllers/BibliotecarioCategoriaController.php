@@ -8,7 +8,7 @@ class BibliotecarioCategoriaController extends Controller {
             session_start();
         }
 
-        if(!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 3){
+        if(!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 5){
             header("Location: ".BASE_URL."AuthController/login");
             exit;
         }

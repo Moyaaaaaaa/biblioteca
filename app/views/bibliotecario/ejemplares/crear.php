@@ -2,6 +2,8 @@
 
 <form method="POST" action="<?= BASE_URL ?>BibliotecarioEjemplarController/guardar">
 
+<?php if(!$data['id_libro']): ?>
+
 <label>Libro</label>
 <br>
 
@@ -19,34 +21,39 @@
 
 <br><br>
 
-<label>Código etiqueta</label>
-<br>
+<?php else: ?>
 
-<input type="text" name="codigo_etiqueta" required>
+<h3>Libro</h3>
+
+<strong>
+<?= $data['libro']['titulo'] ?>
+</strong>
+
+<input type="hidden" name="id_libro" value="<?= $data['id_libro'] ?>">
+
+<br><br>
+
+<?php endif; ?>
+
+
+<label>Edición</label>
+<br>
+<input type="text" name="edicion" required>
 
 <br><br>
 
-<label>Estado</label>
+
+<label>Año de edición</label>
 <br>
-
-<select name="id_estado">
-
-<?php foreach($data['estados'] as $estado): ?>
-
-<option value="<?= $estado['id_estado'] ?>">
-<?= $estado['estado'] ?>
-</option>
-
-<?php endforeach; ?>
-
-</select>
+<input type="number" name="anio_edicion" required>
 
 <br><br>
+
 
 <label>Condición</label>
 <br>
 
-<select name="id_condicion">
+<select name="id_condicion" required>
 
 <?php foreach($data['condiciones'] as $condicion): ?>
 
@@ -59,6 +66,25 @@
 </select>
 
 <br><br>
+
+
+<label>Ubicación física</label>
+<br>
+
+<select name="id_ubicacion" required>
+
+<?php foreach($data['ubicaciones'] as $ubicacion): ?>
+
+<option value="<?= $ubicacion['id_ubicacion'] ?>">
+<?= $ubicacion['ubicacion'] ?>
+</option>
+
+<?php endforeach; ?>
+
+</select>
+
+<br><br>
+
 
 <button type="submit">
 Guardar Ejemplar

@@ -123,4 +123,38 @@ class Autor
 
         return $ids;
     }
+    public function todos(){
+
+$sql = "SELECT 
+id_autor,
+nombre,
+apellido_paterno,
+apellido_materno,
+nacionalidad
+FROM autor
+ORDER BY nombre";
+
+$stmt = $this->db->prepare($sql);
+
+$stmt->execute();
+
+return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+    public function obtener($id)
+    {
+
+        $sql = "SELECT * FROM autor
+WHERE id_autor=:id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    }
 }

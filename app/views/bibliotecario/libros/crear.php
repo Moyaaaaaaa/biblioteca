@@ -37,15 +37,15 @@
 
 <br><br>
 
-<label>Autores</label>
+<label>Editorial</label>
 <br>
 
-<select name="autores[]" multiple size="5">
+<select name="id_editorial" required>
 
-<?php foreach($data['autores'] as $autor): ?>
+<?php foreach($data['editoriales'] as $editorial): ?>
 
-<option value="<?= $autor['id_autor'] ?>">
-<?= $autor['nombre'] ?>
+<option value="<?= $editorial['id_editorial'] ?>">
+<?= $editorial['editorial'] ?>
 </option>
 
 <?php endforeach; ?>
@@ -53,6 +53,31 @@
 </select>
 
 <br><br>
+
+<label>Autores</label>
+<br>
+<small>Puede seleccionar uno o varios autores</small>
+<br><br>
+
+<div style="border:1px solid #ccc; padding:10px; width:320px; max-height:180px; overflow-y:auto;">
+
+<?php foreach($data['autores'] as $autor): ?>
+
+<label style="display:block; margin-bottom:5px;">
+
+<input type="checkbox" name="autores[]" value="<?= $autor['id_autor'] ?>">
+
+<?= $autor['nombre'] ?>
+<?= $autor['apellido_paterno'] ?>
+<?= $autor['apellido_materno'] ?>
+
+</label>
+
+<?php endforeach; ?>
+
+</div>
+
+<br>
 
 <button type="submit">
 Guardar Libro

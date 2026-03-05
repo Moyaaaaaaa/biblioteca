@@ -4,6 +4,8 @@
 Agregar Libro
 </a>
 
+<br><br>
+
 <table border="1">
 
 <tr>
@@ -11,26 +13,38 @@ Agregar Libro
 <th>Título</th>
 <th>ISBN</th>
 <th>Año</th>
+<th>Categoría</th>
+<th>Ejemplares</th>
 <th>Acciones</th>
 </tr>
 
-<?php foreach($data['libros'] as $l): ?>
+<?php foreach($data['libros'] as $libro): ?>
 
 <tr>
 
-<td><?= $l['id_libro'] ?></td>
-<td><?= $l['titulo'] ?></td>
-<td><?= $l['isbn'] ?></td>
-<td><?= $l['anio_publicacion'] ?></td>
+<td><?= $libro['id_libro'] ?></td>
+<td><?= $libro['titulo'] ?></td>
+<td><?= $libro['isbn'] ?></td>
+<td><?= $libro['anio_publicacion'] ?></td>
+<td><?= $libro['categoria'] ?></td>
+<td><?= $libro['ejemplares'] ?></td>
 
 <td>
 
-<a href="<?= BASE_URL ?>BibliotecarioLibroController/editar/<?= $l['id_libro'] ?>">
+<a href="<?= BASE_URL ?>BibliotecarioLibroController/editar/<?= $libro['id_libro'] ?>">
 Editar
 </a>
 
-<a href="<?= BASE_URL ?>BibliotecarioLibroController/eliminar/<?= $l['id_libro'] ?>">
+|
+
+<a href="<?= BASE_URL ?>BibliotecarioLibroController/eliminar/<?= $libro['id_libro'] ?>">
 Eliminar
+</a>
+
+|
+
+<a href="<?= BASE_URL ?>BibliotecarioEjemplarController/crear/<?= $libro['id_libro'] ?>">
+Agregar ejemplar
 </a>
 
 </td>
@@ -40,9 +54,3 @@ Eliminar
 <?php endforeach; ?>
 
 </table>
-
-<br>
-
-<a href="<?= BASE_URL ?>BibliotecarioController/index">
-Volver
-</a>

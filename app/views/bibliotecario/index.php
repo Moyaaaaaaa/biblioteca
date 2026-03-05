@@ -38,4 +38,10 @@ Gestión de Multas
 </a>
 </li>
 
+<li>
+<a href="<?= BASE_URL ?>AuthController/logout">
+🚪 Cerrar sesión
+</a>
+</li>
+
 </ul>
