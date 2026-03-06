@@ -1,84 +1,89 @@
 <?php
 
-class BibliotecarioEditorialController extends Controller {
+class BibliotecarioEditorialController extends Controller
+{
 
-public function __construct(){
+    public function __construct()
+    {
 
-if(session_status() === PHP_SESSION_NONE){
-session_start();
-}
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-if(!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 5){
-header("Location: ".BASE_URL."AuthController/login");
-exit;
-}
+        if (!isset($_SESSION['usuario'])) {
+            header("Location: " . BASE_URL . "AuthController/login");
+            exit;
+        }
 
-}
+        if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
+            echo "Acceso denegado";
+            exit;
+        }
+    }
 
-public function index(){
+    public function index()
+    {
 
-$editorialModel = $this->model('Editorial');
+        $editorialModel = $this->model('Editorial');
 
-$editoriales = $editorialModel->todas();
+        $editoriales = $editorialModel->todas();
 
-$this->view('bibliotecario/editoriales/index',[
-'editoriales'=>$editoriales
-]);
+        $this->view('bibliotecario/editoriales/index', [
+            'editoriales' => $editoriales
+        ]);
+    }
 
-}
+    public function crear()
+    {
 
-public function crear(){
+        $this->view('bibliotecario/editoriales/crear');
+    }
 
-$this->view('bibliotecario/editoriales/crear');
+    public function guardar()
+    {
 
-}
+        $editorialModel = $this->model('Editorial');
 
-public function guardar(){
+        $editorialModel->crear($_POST['editorial']);
 
-$editorialModel = $this->model('Editorial');
+        header("Location: " . BASE_URL . "BibliotecarioEditorialController/index");
+        exit;
+    }
 
-$editorialModel->crear($_POST['editorial']);
+    public function editar($id)
+    {
 
-header("Location: ".BASE_URL."BibliotecarioEditorialController/index");
-exit;
+        $editorialModel = $this->model('Editorial');
 
-}
+        $editorial = $editorialModel->obtener($id);
 
-public function editar($id){
+        $this->view('bibliotecario/editoriales/editar', [
+            'editorial' => $editorial
+        ]);
+    }
 
-$editorialModel = $this->model('Editorial');
+    public function actualizar()
+    {
 
-$editorial = $editorialModel->obtener($id);
+        $editorialModel = $this->model('Editorial');
 
-$this->view('bibliotecario/editoriales/editar',[
-'editorial'=>$editorial
-]);
+        $editorialModel->actualizar(
+            $_POST['id_editorial'],
+            $_POST['editorial']
+        );
 
-}
+        header("Location: " . BASE_URL . "BibliotecarioEditorialController/index");
+        exit;
+    }
 
-public function actualizar(){
+    public function eliminar($id)
+    {
 
-$editorialModel = $this->model('Editorial');
+        $editorialModel = $this->model('Editorial');
 
-$editorialModel->actualizar(
-$_POST['id_editorial'],
-$_POST['editorial']
-);
+        $editorialModel->eliminar($id);
 
-header("Location: ".BASE_URL."BibliotecarioEditorialController/index");
-exit;
-
-}
-
-public function eliminar($id){
-
-$editorialModel = $this->model('Editorial');
-
-$editorialModel->eliminar($id);
-
-header("Location: ".BASE_URL."BibliotecarioEditorialController/index");
-exit;
-
-}
-
+        header("Location: " . BASE_URL . "BibliotecarioEditorialController/index");
+        exit;
+    }
 }

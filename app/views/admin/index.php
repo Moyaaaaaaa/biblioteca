@@ -1,85 +1,55 @@
-<h1>Panel Administrador Biblioteca</h1>
-
-<p>
-
-Bienvenido:
-
-<?= $_SESSION['usuario']['nombre']; ?>
-
-</p>
-
-<hr>
-
-<h3>Administración</h3>
+<h2>Panel Administrador</h2>
 
 <ul>
 
 <li>
-
-<a href="<?= BASE_URL ?>UsuarioController">
-
-CRUD Usuarios
-
+<a href="<?= BASE_URL ?>AdminConfiguracionController/index">
+Configuración del sistema
 </a>
-
 </li>
 
-
 <li>
-
-<a href="<?= BASE_URL ?>LibroController">
-
-CRUD Libros
-
+<a href="<?= BASE_URL ?>BibliotecarioLibroController/index">
+Gestionar libros
 </a>
-
 </li>
 
-
 <li>
-
-<a href="<?= BASE_URL ?>AutorController">
-
-CRUD Autores
-
+<a href="<?= BASE_URL ?>BibliotecarioEjemplarController/index">
+Gestionar ejemplares
 </a>
-
 </li>
 
-
 <li>
-
-<a href="<?= BASE_URL ?>PrestamoController">
-
-Préstamos
-
+<a href="<?= BASE_URL ?>BibliotecarioAutorController/index">
+Gestionar autores
 </a>
-
 </li>
 
+<li>
+<a href="<?= BASE_URL ?>BibliotecarioCategoriaController/index">
+Gestionar categorías
+</a>
+</li>
 
 <li>
-
-<a href="<?= BASE_URL ?>MultaController">
-
-Multas (Ver / Eliminar)
-
+<a href="<?= BASE_URL ?>BibliotecarioEditorialController/index">
+Gestionar editoriales
 </a>
+</li>
 
+<li>
+<a href="<?= BASE_URL ?>MultaController/index">
+Gestionar multas
+</a>
 </li>
 
 </ul>
 
-<hr>
+<br><br>
 
 <a href="<?= BASE_URL ?>AuthController/logout">
-
-Cerrar Sesión
-
-</a>
-
-<a href="<?=BASE_URL?>UsuarioController/index">
-
-Administrar Usuarios
-
+<button>
+Cerrar sesión
+</button>
 </a>

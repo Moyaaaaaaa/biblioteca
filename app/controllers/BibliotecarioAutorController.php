@@ -1,39 +1,46 @@
 <?php
 
-class BibliotecarioAutorController extends Controller {
+class BibliotecarioAutorController extends Controller
+{
 
-    public function __construct(){
+    public function __construct()
+    {
 
-        if(session_status() === PHP_SESSION_NONE){
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        if(!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 5){
-            header("Location: ".BASE_URL."AuthController/login");
+        if (!isset($_SESSION['usuario'])) {
+            header("Location: " . BASE_URL . "AuthController/login");
             exit;
         }
 
+        if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
+            echo "Acceso denegado";
+            exit;
+        }
     }
 
-    public function index(){
+    public function index()
+    {
 
         $autorModel = $this->model('Autor');
 
         $autores = $autorModel->listarAutores();
 
-        $this->view('bibliotecario/autores/index',[
-            'autores'=>$autores
+        $this->view('bibliotecario/autores/index', [
+            'autores' => $autores
         ]);
-
     }
 
-    public function crear(){
+    public function crear()
+    {
 
         $this->view('bibliotecario/autores/crear');
-
     }
 
-    public function guardar(){
+    public function guardar()
+    {
 
         $autorModel = $this->model('Autor');
 
@@ -44,24 +51,24 @@ class BibliotecarioAutorController extends Controller {
             $_POST['nacionalidad']
         );
 
-        header("Location: ".BASE_URL."BibliotecarioAutorController/index");
+        header("Location: " . BASE_URL . "BibliotecarioAutorController/index");
         exit;
-
     }
 
-    public function editar($id){
+    public function editar($id)
+    {
 
         $autorModel = $this->model('Autor');
 
         $autor = $autorModel->obtener($id);
 
-        $this->view('bibliotecario/autores/editar',[
-            'autor'=>$autor
+        $this->view('bibliotecario/autores/editar', [
+            'autor' => $autor
         ]);
-
     }
 
-    public function actualizar(){
+    public function actualizar()
+    {
 
         $autorModel = $this->model('Autor');
 
@@ -73,20 +80,18 @@ class BibliotecarioAutorController extends Controller {
             $_POST['nacionalidad']
         );
 
-        header("Location: ".BASE_URL."BibliotecarioAutorController/index");
+        header("Location: " . BASE_URL . "BibliotecarioAutorController/index");
         exit;
-
     }
 
-    public function eliminar($id){
+    public function eliminar($id)
+    {
 
         $autorModel = $this->model('Autor');
 
         $autorModel->eliminar($id);
 
-        header("Location: ".BASE_URL."BibliotecarioAutorController/index");
+        header("Location: " . BASE_URL . "BibliotecarioAutorController/index");
         exit;
-
     }
-
 }

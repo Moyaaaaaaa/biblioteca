@@ -10,11 +10,15 @@ class BibliotecarioLibroController extends Controller
             session_start();
         }
 
-        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 5) {
+        if (!isset($_SESSION['usuario'])) {
             header("Location: " . BASE_URL . "AuthController/login");
             exit;
         }
 
+        if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
+            echo "Acceso denegado";
+            exit;
+        }
     }
 
     public function index()
@@ -27,7 +31,6 @@ class BibliotecarioLibroController extends Controller
         $this->view('bibliotecario/libros/index', [
             'libros' => $libros
         ]);
-
     }
 
     public function crear()
@@ -46,7 +49,6 @@ class BibliotecarioLibroController extends Controller
             'autores' => $autores,
             'editoriales' => $editoriales
         ]);
-
     }
 
     public function guardar()
@@ -65,7 +67,6 @@ class BibliotecarioLibroController extends Controller
 
         header("Location: " . BASE_URL . "BibliotecarioLibroController/index");
         exit;
-
     }
 
     public function editar($id)
@@ -91,7 +92,6 @@ class BibliotecarioLibroController extends Controller
             'editoriales' => $editoriales,
             'autoresLibro' => $autoresLibro
         ]);
-
     }
 
     public function actualizar()
@@ -115,7 +115,6 @@ class BibliotecarioLibroController extends Controller
 
         header("Location: " . BASE_URL . "BibliotecarioLibroController/index");
         exit;
-
     }
 
     public function eliminar($id)
@@ -127,7 +126,5 @@ class BibliotecarioLibroController extends Controller
 
         header("Location: " . BASE_URL . "BibliotecarioLibroController/index");
         exit;
-
     }
-
 }

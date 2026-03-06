@@ -10,11 +10,15 @@ class BibliotecarioEjemplarController extends Controller
             session_start();
         }
 
-        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 5) {
+        if (!isset($_SESSION['usuario'])) {
             header("Location: " . BASE_URL . "AuthController/login");
             exit;
         }
 
+        if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
+            echo "Acceso denegado";
+            exit;
+        }
     }
 
     public function index()
@@ -27,7 +31,6 @@ class BibliotecarioEjemplarController extends Controller
         $this->view('bibliotecario/ejemplares/index', [
             'ejemplares' => $ejemplares
         ]);
-
     }
 
     public function crear($id_libro = null)
@@ -43,11 +46,9 @@ class BibliotecarioEjemplarController extends Controller
         if ($id_libro) {
 
             $libro = $libroModel->obtenerPorId($id_libro);
-
         } else {
 
             $libros = $libroModel->todos();
-
         }
 
         $this->view('bibliotecario/ejemplares/crear', [
@@ -57,7 +58,6 @@ class BibliotecarioEjemplarController extends Controller
             'condiciones' => $condiciones,
             'ubicaciones' => $ubicaciones
         ]);
-
     }
 
     public function guardar()
@@ -75,7 +75,6 @@ class BibliotecarioEjemplarController extends Controller
 
         header("Location: " . BASE_URL . "BibliotecarioEjemplarController/index");
         exit;
-
     }
 
     public function editar($id)
@@ -101,7 +100,6 @@ class BibliotecarioEjemplarController extends Controller
             'estados' => $estados,
             'ubicaciones' => $ubicaciones
         ]);
-
     }
 
     public function actualizar()
@@ -122,7 +120,6 @@ class BibliotecarioEjemplarController extends Controller
 
         header("Location: " . BASE_URL . "BibliotecarioEjemplarController/index");
         exit;
-
     }
 
     public function eliminar($id)
@@ -134,7 +131,5 @@ class BibliotecarioEjemplarController extends Controller
 
         header("Location: " . BASE_URL . "BibliotecarioEjemplarController/index");
         exit;
-
     }
-
 }

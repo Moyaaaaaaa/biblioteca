@@ -1,40 +1,25 @@
 <?php
 
-class AdminController extends Controller {
+class AdminController extends Controller
+{
 
-    public function __construct(){
+public function __construct(){
 
-        if(session_status() === PHP_SESSION_NONE){
+if(session_status() === PHP_SESSION_NONE){
+session_start();
+}
 
-            session_start();
+if(!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 1){
+header("Location: ".BASE_URL."AuthController/login");
+exit;
+}
 
-        }
+}
 
-        // si no hay sesión
-        if(!isset($_SESSION['usuario'])){
+public function index(){
 
-            header("Location: ".BASE_URL."AuthController/login");
+$this->view('admin/index');
 
-            exit;
-
-        }
-
-        // SOLO ADMINISTRADOR
-        if($_SESSION['usuario']['id_rol'] != 1){
-
-            echo "Acceso denegado";
-
-            exit;
-
-        }
-
-    }
-
-
-    public function index(){
-
-        $this->view('admin/index');
-
-    }
+}
 
 }

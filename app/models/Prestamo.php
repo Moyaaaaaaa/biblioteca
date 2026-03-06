@@ -1,4 +1,5 @@
 <?php
+require_once '../app/models/Configuracion.php';
 
 class Prestamo
 {
@@ -84,7 +85,12 @@ class Prestamo
             $id_ejemplar = $ejemplar['id_ejemplar'];
 
             $fecha_prestamo = date('Y-m-d');
-            $fecha_limite = date('Y-m-d', strtotime('+3 days'));
+
+            /**MODIFICACION ADMIN*/
+            $configModel = new Configuracion();
+            $config = $configModel->obtener();
+
+            $fecha_limite = date('Y-m-d', strtotime("+" . $config['dias_prestamo'] . " days"));
 
             $sql = "INSERT INTO prestamo 
                     (id_usuario, id_ejemplar, fecha_prestamo, fecha_limite)
@@ -114,7 +120,6 @@ class Prestamo
                 'titulo' => $this->obtenerTituloLibro($id_libro),
                 'fecha_limite' => $fecha_limite
             ];
-
         } catch (Exception $e) {
 
             $this->db->rollBack();
@@ -221,8 +226,11 @@ class Prestamo
             $cat = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $multa = true;
+            /* MODIFICACION ADMIN */
+            $configModel = new Configuracion();
+            $config = $configModel->obtener();
 
-            $monto_total += $dias_retraso * $cat['monto'];
+            $monto_total += $dias_retraso * $config['multa_dia'];
 
             $motivos[] = 1;
         }
@@ -336,7 +344,6 @@ class Prestamo
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     }
 
     public function detallePrestamo($id_prestamo)
@@ -361,7 +368,5 @@ class Prestamo
         ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
-
     }
-
 }

@@ -1,56 +1,73 @@
 <?php
 
-class MultaController extends Controller {
+class MultaController extends Controller
+{
 
-public function __construct(){
+    public function __construct()
+    {
 
-if(session_status() === PHP_SESSION_NONE){
-session_start();
-}
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-if(!isset($_SESSION['usuario'])){
-header("Location: ".BASE_URL."AuthController/login");
-exit;
-}
+        if (!isset($_SESSION['usuario'])) {
+            header("Location: " . BASE_URL . "AuthController/login");
+            exit;
+        }
 
-}
+    }
 
-public function index(){
 
-$multaModel=$this->model('Multa');
+    // MULTAS ADMIN / BIBLIOTECARIO
+    public function index()
+    {
 
-$multas=$multaModel->todas();
+        if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
+            echo "Acceso denegado";
+            exit;
+        }
 
-$this->view('bibliotecario/multas',[
-'multas'=>$multas
-]);
+        $multaModel = $this->model('Multa');
 
-}
+        $multas = $multaModel->todas();
 
-public function pagar(){
+        $this->view('bibliotecario/multas', [
+            'multas' => $multas
+        ]);
+    }
 
-$id_multa=$_POST['id_multa'];
 
-$multaModel=$this->model('Multa');
+    public function pagar()
+    {
 
-$multaModel->pagar($id_multa);
+        if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
+            echo "Acceso denegado";
+            exit;
+        }
 
-header("Location: ".BASE_URL."MultaController/index");
+        $id_multa = $_POST['id_multa'];
 
-}
+        $multaModel = $this->model('Multa');
 
-public function misMultas(){
+        $multaModel->pagar($id_multa);
 
-$multaModel=$this->model('Multa');
+        header("Location: " . BASE_URL . "MultaController/index");
+    }
 
-$multas=$multaModel->multasUsuario(
-$_SESSION['usuario']['id_usuario']
-);
 
-$this->view('usuario/multas',[
-'multas'=>$multas
-]);
+    // MULTAS DEL USUARIO
+    public function misMultas()
+    {
 
-}
+        $multaModel = $this->model('Multa');
+
+        $multas = $multaModel->multasUsuario(
+            $_SESSION['usuario']['id_usuario']
+        );
+
+        $this->view('usuario/multas', [
+            'multas' => $multas
+        ]);
+    }
 
 }
