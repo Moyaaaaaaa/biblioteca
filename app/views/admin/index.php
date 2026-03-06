@@ -48,6 +48,12 @@ Gestionar multas
 
 <br><br>
 
+<li>
+<a href="<?= BASE_URL ?>UsuarioController/index">
+Gestionar usuarios
+</a>
+</li>
+
 <a href="<?= BASE_URL ?>AuthController/logout">
 <button>
 Cerrar sesión

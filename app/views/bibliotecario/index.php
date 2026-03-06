@@ -50,6 +50,10 @@ Gestionar editoriales
 </a>
 </li>
 
+<a href="<?= BASE_URL ?>UsuarioController/index">
+Gestionar usuarios
+</a>
+
 <li>
 <a href="<?= BASE_URL ?>AuthController/logout">
 🚪 Cerrar sesión

@@ -1,111 +1,108 @@
 <?php
 
-class UsuarioController extends Controller {
+class UsuarioController extends Controller
+{
 
-
-    // ===========================
-    // SEGURIDAD ADMINISTRADOR
-    // ===========================
-
-    public function __construct(){
+    public function __construct()
+    {
 
         if(session_status() === PHP_SESSION_NONE){
             session_start();
         }
 
-        // login obligatorio
         if(!isset($_SESSION['usuario'])){
-
             header("Location: ".BASE_URL."AuthController/login");
             exit;
-
         }
 
-        // SOLO ADMIN
-        if($_SESSION['usuario']['id_rol'] != 1){
-
+        if($_SESSION['usuario']['id_rol'] != 1 && $_SESSION['usuario']['id_rol'] != 5){
             echo "Acceso denegado";
             exit;
-
         }
 
     }
 
 
-
-    // ===========================
-    // LISTAR USUARIOS
-    // ===========================
-
-    public function index(){
+    public function index()
+    {
 
         $usuarioModel = $this->model('Usuario');
 
-        $usuarios = $usuarioModel->obtenerUsuarios();
+        $usuarios = $usuarioModel->todos();
 
-        $this->view('usuario/index',[
+        $this->view('usuarios/index',[
             'usuarios'=>$usuarios
         ]);
 
     }
 
 
+    public function crear()
+    {
 
-    // ===========================
-    // FORM CREAR
-    // ===========================
+        $rolModel = $this->model('Rol');
 
-    public function create(){
+        $roles = $rolModel->obtenerRoles();
 
-        $usuarioModel = $this->model('Usuario');
-
-        $roles = $usuarioModel->obtenerRoles();
-
-        $this->view('usuario/create',[
+        $this->view('usuarios/crear',[
             'roles'=>$roles
         ]);
 
     }
 
 
-
-    // ===========================
-    // EDITAR FORM
-    // ===========================
-
-    public function editar($id){
+    public function guardar()
+    {
 
         $usuarioModel = $this->model('Usuario');
 
-        $usuario = $usuarioModel->obtenerUsuarioPorId($id);
+        $usuarioModel->crearUsuario(
 
-        $roles = $usuarioModel->obtenerRoles();
+            $_POST['nombre'],
+            $_POST['apellido_paterno'],
+            $_POST['apellido_materno'],
+            $_POST['username'],
+            $_POST['correo'],
+            $_POST['contrasenia'],
+            $_POST['fecha_nacimiento'],
+            $_POST['id_rol']
 
-        $this->view('usuario/editar',[
+        );
 
+        header("Location: ".BASE_URL."UsuarioController/index");
+
+    }
+
+
+    public function editar($id)
+    {
+
+        $usuarioModel = $this->model('Usuario');
+        $rolModel = $this->model('Rol');
+
+        $usuario = $usuarioModel->obtenerPorId($id);
+        $roles = $rolModel->obtenerRoles();
+
+        $this->view('usuarios/editar',[
             'usuario'=>$usuario,
             'roles'=>$roles
-
         ]);
 
     }
 
 
-
-    // ===========================
-    // ACTUALIZAR
-    // ===========================
-
-    public function actualizar(){
+    public function actualizar()
+    {
 
         $usuarioModel = $this->model('Usuario');
 
-        $usuarioModel->actualizarUsuario(
+        $usuarioModel->actualizar(
 
             $_POST['id_usuario'],
             $_POST['nombre'],
             $_POST['apellido_paterno'],
             $_POST['apellido_materno'],
+            $_POST['username'],
             $_POST['correo'],
             $_POST['id_rol']
 
@@ -113,34 +110,24 @@ class UsuarioController extends Controller {
 
         header("Location: ".BASE_URL."UsuarioController/index");
 
-        exit;
-
     }
 
 
+    public function eliminar($id)
+    {
 
-    // ===========================
-    // ELIMINAR
-    // ===========================
+        // SOLO ADMIN PUEDE ELIMINAR
 
-    public function eliminar($id){
-
-        // evitar borrar al admin principal
-        if($id == 1){
-
-            echo "No puedes eliminar el administrador principal";
-
+        if($_SESSION['usuario']['id_rol'] != 1){
+            echo "Solo administrador puede eliminar usuarios";
             exit;
-
         }
 
         $usuarioModel = $this->model('Usuario');
 
-        $usuarioModel->eliminarUsuario($id);
+        $usuarioModel->eliminar($id);
 
         header("Location: ".BASE_URL."UsuarioController/index");
-
-        exit;
 
     }
 
