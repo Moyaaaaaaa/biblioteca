@@ -1,23 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Montserrat',sans-serif;
+}
+
+body{
+background:#ffffff;
+padding:60px;
+}
+
+/* BARRA SUPERIOR */
+
+.barra{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+/* TITULO */
+
+h2{
+font-size:40px;
+background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* BOTON CREAR */
+
+.btn-crear{
+padding:10px 20px;
+border-radius:12px;
+background:linear-gradient(90deg,#6366f1,#06b6d4);
+color:white;
+text-decoration:none;
+font-weight:500;
+transition:.3s;
+}
+
+.btn-crear:hover{
+transform:scale(1.05);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* TABLA */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#f8f8fa;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ENCABEZADO */
+
+th{
+background:#111;
+color:white;
+padding:15px;
+text-align:left;
+}
+
+/* FILAS */
+
+td{
+padding:15px;
+border-bottom:1px solid #eee;
+}
+
+tr{
+transition:.25s;
+}
+
+tr:hover{
+background:#f0f0f5;
+}
+
+/* BOTONES ACCIONES */
+
+.accion{
+text-decoration:none;
+padding:6px 12px;
+border-radius:8px;
+font-size:14px;
+margin-right:5px;
+transition:.3s;
+}
+
+/* EDITAR */
+
+.editar{
+background:#e0f2fe;
+color:#0284c7;
+}
+
+.editar:hover{
+background:#0284c7;
+color:white;
+}
+
+/* ELIMINAR */
+
+.eliminar{
+background:#fee2e2;
+color:#dc2626;
+}
+
+.eliminar:hover{
+background:#dc2626;
+color:white;
+}
+
+/* BOTON VOLVER */
+
+.volver{
+display:inline-block;
+margin-top:30px;
+padding:10px 20px;
+border-radius:12px;
+background:#111;
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.volver:hover{
+background:#333;
+transform:scale(1.05);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="barra">
+
 <h2>Usuarios</h2>
 
-<br>
-
-<a href="<?= BASE_URL ?>UsuarioController/crear">
-Crear usuario
+<a class="btn-crear" href="<?= BASE_URL ?>UsuarioController/crear">
++ Crear usuario
 </a>
 
-<br><br>
+</div>
 
-<table border="1">
+<table>
 
 <tr>
-
 <th>Nombre</th>
 <th>Username</th>
 <th>Correo</th>
 <th>Rol</th>
 <th>Acciones</th>
-
 </tr>
 
 <?php foreach($data['usuarios'] as $u): ?>
@@ -36,15 +186,15 @@ Crear usuario
 
 <td>
 
-<a href="<?= BASE_URL ?>UsuarioController/editar/<?= $u['id_usuario'] ?>">
+<a class="accion editar"
+href="<?= BASE_URL ?>UsuarioController/editar/<?= $u['id_usuario'] ?>">
 Editar
 </a>
 
 <?php if($_SESSION['usuario']['id_rol'] == 1): ?>
 
-|
-
-<a href="<?= BASE_URL ?>UsuarioController/eliminar/<?= $u['id_usuario'] ?>"
+<a class="accion eliminar"
+href="<?= BASE_URL ?>UsuarioController/eliminar/<?= $u['id_usuario'] ?>"
 onclick="return confirm('¿Eliminar este usuario?')">
 Eliminar
 </a>
@@ -63,14 +213,18 @@ Eliminar
 
 <?php if($_SESSION['usuario']['id_rol'] == 1): ?>
 
-<a href="<?= BASE_URL ?>AdminController/index">
-Volver
+<a class="volver" href="<?= BASE_URL ?>AdminController/index">
+← Volver
 </a>
 
 <?php else: ?>
 
-<a href="<?= BASE_URL ?>BibliotecarioController/index">
-Volver
+<a class="volver" href="<?= BASE_URL ?>BibliotecarioController/index">
+← Volver
 </a>
 
 <?php endif; ?>
+
+</body>
+
+</html>

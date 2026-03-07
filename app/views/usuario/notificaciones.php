@@ -24,16 +24,50 @@ background:white;
 padding:60px;
 }
 
+/* HEADER */
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:40px;
+
+}
+
 /* titulo */
 
 h2{
 
 font-size:36px;
-margin-bottom:40px;
 
 background:linear-gradient(90deg,#2f80ed,#7b2ff7,#ff4d6d,#ff7a18);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+
+}
+
+/* boton volver */
+
+.volver{
+
+text-decoration:none;
+background:black;
+color:white;
+
+padding:10px 18px;
+border-radius:10px;
+
+font-size:13px;
+
+transition:.25s;
+
+}
+
+.volver:hover{
+
+transform:translateY(-2px);
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
 
 }
 
@@ -112,32 +146,21 @@ color:white;
 
 }
 
-/* volver */
-
-.volver{
-
-margin-top:40px;
-display:inline-block;
-text-decoration:none;
-color:black;
-font-size:14px;
-
-}
-
-.volver:hover{
-
-text-decoration:underline;
-
-}
-
 </style>
 
 </head>
 
-
 <body>
 
+<div class="header">
+
 <h2>Notificaciones</h2>
+
+<a class="volver" href="<?= BASE_URL ?>DashboardController/index">
+← Volver
+</a>
+
+</div>
 
 <div class="notificaciones">
 
@@ -170,11 +193,6 @@ Aviso
 <?php endforeach; ?>
 
 </div>
-
-
-<a class="volver" href="<?= BASE_URL ?>DashboardController/index">
-← Volver
-</a>
 
 </body>
 

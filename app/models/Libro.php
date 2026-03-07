@@ -75,7 +75,6 @@ class Libro
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     }
 
     public function obtenerLibro($id_libro)
@@ -126,11 +125,9 @@ VALUES
                 ':libro' => $id_libro,
                 ':autor' => $autor
             ]);
-
         }
 
         $this->db->commit();
-
     }
 
     public function obtenerPorId($id)
@@ -169,27 +166,38 @@ WHERE id_libro=:id";
             ':editorial' => $editorial,
             ':id' => $id
         ]);
-
     }
 
     public function eliminar($id)
     {
 
-        $sql = "DELETE FROM libro_autor
-        WHERE id_libro=:id";
+        $sql = "SELECT COUNT(*) as total
+        FROM ejemplar
+        WHERE id_libro = :id";
 
         $stmt = $this->db->prepare($sql);
+
         $stmt->execute([
             ':id' => $id
         ]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result['total'] > 0) {
+
+            return false;
+        }
 
         $sql = "DELETE FROM libro
-        WHERE id_libro=:id";
+        WHERE id_libro = :id";
 
         $stmt = $this->db->prepare($sql);
+
         $stmt->execute([
             ':id' => $id
         ]);
+
+        return true;
     }
 
     public function autoresLibro($id_libro)
@@ -241,9 +249,7 @@ VALUES
                 ':libro' => $id_libro,
                 ':autor' => $autor
             ]);
-
         }
-
     }
 
     public function librosPorAutor($id_autor)
@@ -282,6 +288,5 @@ GROUP BY l.id_libro";
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
     }
 }

@@ -17,7 +17,7 @@ class BibliotecarioController extends Controller
         }
 
         // SOLO BIBLIOTECARIO (id_rol = 5)
-        if ($_SESSION['usuario']['id_rol'] != 5) {
+        if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
             echo "Acceso denegado";
             exit;
         }
@@ -52,6 +52,5 @@ class BibliotecarioController extends Controller
             'prestamo' => $prestamo,
             'condiciones' => $condiciones
         ]);
-
     }
 }

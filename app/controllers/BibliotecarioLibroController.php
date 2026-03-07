@@ -122,7 +122,14 @@ class BibliotecarioLibroController extends Controller
 
         $libroModel = $this->model('Libro');
 
-        $libroModel->eliminar($id);
+        $resultado = $libroModel->eliminar($id);
+
+        if (!$resultado) {
+
+            echo "No se puede eliminar el libro porque tiene ejemplares registrados.";
+
+            return;
+        }
 
         header("Location: " . BASE_URL . "BibliotecarioLibroController/index");
         exit;
