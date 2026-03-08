@@ -369,4 +369,28 @@ class Prestamo
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function prestamosActivosUsuario($id_usuario)
+{
+
+$sql = "SELECT COUNT(*) as total
+FROM prestamo p
+
+LEFT JOIN devolucion d
+ON p.id_prestamo = d.id_prestamo
+
+WHERE p.id_usuario = :usuario
+AND d.id_devolucion IS NULL";
+
+$stmt = $this->db->prepare($sql);
+
+$stmt->execute([
+':usuario' => $id_usuario
+]);
+
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+return $result['total'];
+
+}
 }

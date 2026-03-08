@@ -16,6 +16,7 @@ class PrestamoController extends Controller
         }
     }
 
+
     public function misPrestamos()
     {
 
@@ -29,6 +30,9 @@ class PrestamoController extends Controller
             'prestamos' => $prestamos
         ]);
     }
+
+
+
     public function crear()
     {
 
@@ -39,25 +43,66 @@ class PrestamoController extends Controller
 
         $id_libro = $_POST['id_libro'];
         $id_usuario = $_SESSION['usuario']['id_usuario'];
+        $rol = $_SESSION['usuario']['id_rol'];
 
-        // obtener modelo libro
+        $prestamoModel = $this->model('Prestamo');
+
+        /* VALIDAR LIMITE DE PRESTAMOS */
+
+        $prestamos_activos = $prestamoModel->prestamosActivosUsuario($id_usuario);
+
+        $limite = 0;
+
+        switch ($rol) {
+
+            case 2: // estudiante
+                $limite = 3;
+                break;
+
+            case 3: // docente
+                $limite = 5;
+                break;
+
+            case 4: // externo
+                $limite = 2;
+                break;
+
+            default:
+                $limite = 3;
+        }
+
+        if ($prestamos_activos >= $limite) {
+
+            echo "Has alcanzado el número máximo de préstamos permitidos.";
+
+            exit;
+        }
+
+        /* OBTENER LIBRO */
+
         $libroModel = $this->model('Libro');
         $libro = $libroModel->obtenerLibro($id_libro);
 
         $titulo = $libro['titulo'];
 
-        // calcular fecha limite
-        $fecha_limite = date('Y-m-d', strtotime('+3 days'));
+        /* CALCULAR FECHA LIMITE */
 
-        // crear préstamo
-        $prestamoModel = $this->model('Prestamo');
+        $configModel = $this->model('Configuracion');
+        $config = $configModel->obtener();
+
+        $dias = $config['dias_prestamo'];
+
+        $fecha_limite = date('Y-m-d', strtotime("+$dias days"));
+
+        /* CREAR PRESTAMO */
+
         $resultado = $prestamoModel->crearPrestamo($id_usuario, $id_libro);
+
         if ($resultado === "multa_pendiente") {
 
             echo "No puedes solicitar préstamos hasta pagar tus multas.";
 
             exit;
-
         }
 
         if ($resultado) {

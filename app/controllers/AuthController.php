@@ -84,7 +84,7 @@ class AuthController extends Controller
             exit;
         }
 
-        echo "Credenciales incorrectas";
+        $this->view('auth/error_login');
     }
 
 
