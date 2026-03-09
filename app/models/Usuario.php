@@ -229,4 +229,22 @@ ORDER BY u.nombre, u.apellido_paterno";
 
     }
 
+    public function obtenerUsername($id_usuario)
+    {
+
+        $sql = "SELECT username
+            FROM usuario
+            WHERE id_usuario = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id_usuario
+        ]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user['username'];
+    }
+
 }

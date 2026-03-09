@@ -18,9 +18,11 @@ class AuthController extends Controller
             if ($_SESSION['usuario']['id_rol'] == 1) {
 
                 header("Location: " . BASE_URL . "AdminController/index");
+
             } elseif ($_SESSION['usuario']['id_rol'] == 5) {
 
                 header("Location: " . BASE_URL . "BibliotecarioController/index");
+
             } else {
 
                 header("Location: " . BASE_URL . "DashboardController/index");
@@ -44,7 +46,6 @@ class AuthController extends Controller
             session_start();
         }
 
-        // Validar campos
         if (
             empty($_POST['username']) ||
             empty($_POST['contrasenia'])
@@ -60,26 +61,11 @@ class AuthController extends Controller
             $_POST['contrasenia']
         );
 
-        // Si login es correcto
         if ($usuario) {
 
             $_SESSION['usuario'] = $usuario;
 
-            // 🔹 ADMINISTRADOR
-            if ($usuario['id_rol'] == 1) {
-
-                header("Location: " . BASE_URL . "AdminController/index");
-
-                // 🔹 BIBLIOTECARIO
-            } elseif ($usuario['id_rol'] == 5) {
-
-                header("Location: " . BASE_URL . "BibliotecarioController/index");
-
-                // 🔹 TODOS LOS DEMÁS ROLES
-            } else {
-
-                header("Location: " . BASE_URL . "DashboardController/index");
-            }
+            /* REGISTRAR BITACORA */
 
             $bitacora = $this->model('Bitacora');
 
@@ -87,6 +73,19 @@ class AuthController extends Controller
                 1,
                 "Inicio de sesión del usuario " . $_SESSION['usuario']['username']
             );
+
+            if ($usuario['id_rol'] == 1) {
+
+                header("Location: " . BASE_URL . "AdminController/index");
+
+            } elseif ($usuario['id_rol'] == 5) {
+
+                header("Location: " . BASE_URL . "BibliotecarioController/index");
+
+            } else {
+
+                header("Location: " . BASE_URL . "DashboardController/index");
+            }
 
             exit;
         }
@@ -139,9 +138,7 @@ class AuthController extends Controller
     public function guardarUsuario()
     {
 
-        // validar campos básicos
         if (
-
             empty($_POST['nombre']) ||
             empty($_POST['apellido_paterno']) ||
             empty($_POST['username']) ||
@@ -149,7 +146,6 @@ class AuthController extends Controller
             empty($_POST['contrasenia']) ||
             empty($_POST['fecha_nacimiento']) ||
             empty($_POST['id_rol'])
-
         ) {
 
             echo "Campos incompletos";
@@ -176,10 +172,18 @@ class AuthController extends Controller
         exit;
     }
 
+
+
+    // ============================
+    // RECUPERAR CONTRASEÑA
+    // ============================
+
     public function recuperar()
     {
         $this->view('auth/recuperar');
     }
+
+
 
     public function generarRecuperacion()
     {
@@ -194,9 +198,7 @@ class AuthController extends Controller
         if (!$user) {
 
             $this->view('auth/error_recuperacion');
-
             return;
-
         }
 
         $recModel = $this->model('Recuperacion');
@@ -209,6 +211,8 @@ class AuthController extends Controller
             'link' => $link
         ]);
     }
+
+
 
     public function reset()
     {
@@ -229,6 +233,12 @@ class AuthController extends Controller
             'token' => $token
         ]);
     }
+
+
+
+    // ============================
+    // GUARDAR NUEVA CONTRASEÑA
+    // ============================
 
     public function guardarNuevaPassword()
     {
@@ -255,17 +265,7 @@ class AuthController extends Controller
 
         /* OBTENER USERNAME */
 
-        $sql = "SELECT username
-        FROM usuario
-        WHERE id_usuario = :id";
-
-        $stmt = $usuarioModel->db->prepare($sql);
-        $stmt->execute([
-            ':id' => $rec['id_usuario']
-        ]);
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $username = $user['username'];
+        $username = $usuarioModel->obtenerUsername($rec['id_usuario']);
 
         /* REGISTRAR BITACORA */
 

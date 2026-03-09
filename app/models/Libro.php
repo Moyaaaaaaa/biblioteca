@@ -49,10 +49,10 @@ class Libro
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-public function todos()
-{
+    public function todos()
+    {
 
-$sql = "SELECT 
+        $sql = "SELECT 
 l.id_libro,
 l.titulo,
 l.isbn,
@@ -82,13 +82,13 @@ ON l.id_libro = e.id_libro
 
 GROUP BY l.id_libro";
 
-$stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare($sql);
 
-$stmt->execute();
+        $stmt->execute();
 
-return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-}
+    }
 
     public function obtenerLibro($id_libro)
     {
@@ -181,36 +181,43 @@ WHERE id_libro=:id";
         ]);
     }
 
-    public function eliminar($id)
+    public function eliminar($id_libro)
     {
 
-        $sql = "SELECT COUNT(*) as total
-        FROM ejemplar
-        WHERE id_libro = :id";
+        try {
 
-        $stmt = $this->db->prepare($sql);
+            $this->db->beginTransaction();
 
-        $stmt->execute([
-            ':id' => $id
-        ]);
+            /* ELIMINAR RELACIONES CON AUTORES */
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $sql = "DELETE FROM libro_autor
+                WHERE id_libro = :id";
 
-        if ($result['total'] > 0) {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':id' => $id_libro
+            ]);
+
+            /* ELIMINAR LIBRO */
+
+            $sql = "DELETE FROM libro
+                WHERE id_libro = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':id' => $id_libro
+            ]);
+
+            $this->db->commit();
+
+            return true;
+
+        } catch (Exception $e) {
+
+            $this->db->rollBack();
 
             return false;
         }
-
-        $sql = "DELETE FROM libro
-        WHERE id_libro = :id";
-
-        $stmt = $this->db->prepare($sql);
-
-        $stmt->execute([
-            ':id' => $id
-        ]);
-
-        return true;
     }
 
     public function autoresLibro($id_libro)

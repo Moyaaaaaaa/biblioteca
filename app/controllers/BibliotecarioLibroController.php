@@ -126,8 +126,7 @@ class BibliotecarioLibroController extends Controller
 
         if (!$resultado) {
 
-            echo "No se puede eliminar el libro porque tiene ejemplares registrados.";
-
+            $this->view('bibliotecario/error_eliminar_libro');
             return;
         }
 
