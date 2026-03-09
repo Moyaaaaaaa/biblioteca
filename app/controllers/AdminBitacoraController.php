@@ -10,7 +10,7 @@ class AdminBitacoraController extends Controller
 
         $registros = $bitacoraModel->obtenerTodo();
 
-        $this->view('admin/bitacora',[
+        $this->view('admin/bitacora', [
             'registros' => $registros
         ]);
     }

@@ -57,7 +57,7 @@ class BibliotecarioController extends Controller
 
         $bitacora->registrar(
             3,
-            "Visualización de devolución del libro " . $prestamo['titulo']
+            "Devolución del libro " . $prestamo['titulo']
         );
     }
 }

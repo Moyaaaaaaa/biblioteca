@@ -1,5 +1,6 @@
 <?php
 require_once '../app/models/Configuracion.php';
+require_once '../app/models/Bitacora.php';
 
 class Prestamo
 {
@@ -160,13 +161,13 @@ class Prestamo
 
 
     public function devolver($id_prestamo, $condicion_devuelta)
-{
+    {
 
-    try {
+        try {
 
-        $this->db->beginTransaction();
+            $this->db->beginTransaction();
 
-        $sql = "SELECT 
+            $sql = "SELECT 
                 p.id_ejemplar,
                 e.id_condicion,
                 p.fecha_limite,
@@ -177,156 +178,181 @@ class Prestamo
             JOIN libro l ON e.id_libro = l.id_libro
             WHERE p.id_prestamo = :id";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([':id' => $id_prestamo]);
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':id' => $id_prestamo]);
 
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$data) {
-            throw new Exception("Prestamo no encontrado");
-        }
+            if (!$data) {
+                throw new Exception("Prestamo no encontrado");
+            }
 
-        $fecha_devolucion = date("Y-m-d");
+            $fecha_devolucion = date("Y-m-d");
 
-        $dias_retraso = (strtotime($fecha_devolucion) - strtotime($data['fecha_limite'])) / 86400;
+            $dias_retraso = (strtotime($fecha_devolucion) - strtotime($data['fecha_limite'])) / 86400;
 
-        if ($dias_retraso < 0) {
-            $dias_retraso = 0;
-        }
+            if ($dias_retraso < 0) {
+                $dias_retraso = 0;
+            }
 
-        /* REGISTRAR DEVOLUCION */
+            /* REGISTRAR DEVOLUCION */
 
-        $sql = "INSERT INTO devolucion
+            $sql = "INSERT INTO devolucion
             (id_prestamo, fecha_devolucion, dias_retraso, id_condicion)
             VALUES
             (:prestamo, :fecha, :retraso, :condicion)";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':prestamo' => $id_prestamo,
-            ':fecha' => $fecha_devolucion,
-            ':retraso' => $dias_retraso,
-            ':condicion' => $condicion_devuelta
-        ]);
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':prestamo' => $id_prestamo,
+                ':fecha' => $fecha_devolucion,
+                ':retraso' => $dias_retraso,
+                ':condicion' => $condicion_devuelta
+            ]);
 
-        $id_devolucion = $this->db->lastInsertId();
+            $id_devolucion = $this->db->lastInsertId();
 
-        /* ACTUALIZAR ESTADO DEL EJEMPLAR */
+            /* ACTUALIZAR ESTADO DEL EJEMPLAR */
 
-        $sql = "UPDATE ejemplar
+            $sql = "UPDATE ejemplar
             SET id_estado = 1,
                 id_condicion = :condicion
             WHERE id_ejemplar = :ejemplar";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':condicion' => $condicion_devuelta,
-            ':ejemplar' => $data['id_ejemplar']
-        ]);
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':condicion' => $condicion_devuelta,
+                ':ejemplar' => $data['id_ejemplar']
+            ]);
 
-        $multa = false;
-        $monto_total = 0;
-        $motivos = [];
+            $multa = false;
+            $monto_total = 0;
+            $motivos = [];
 
-        /* MULTA POR RETRASO */
+            /* MULTA POR RETRASO */
 
-        if ($dias_retraso > 0) {
+            if ($dias_retraso > 0) {
 
-            $configModel = new Configuracion();
-            $config = $configModel->obtenerPorRol(
-                $this->obtenerRolUsuario($data['id_usuario'])
-            );
+                $configModel = new Configuracion();
+                $config = $configModel->obtenerPorRol(
+                    $this->obtenerRolUsuario($data['id_usuario'])
+                );
 
-            $multa = true;
+                $multa = true;
 
-            $monto_total += $dias_retraso * $config['multa_dia'];
+                $monto_total += $dias_retraso * $config['multa_dia'];
 
-            $motivos[] = 1;
-        }
-
-        /* MULTA POR DAÑO */
-
-        if ($condicion_devuelta > $data['id_condicion']) {
-
-            if ($condicion_devuelta == 2) {
-                $id_catalogo = 2;
-            } else {
-                $id_catalogo = 3;
+                $motivos[] = 1;
             }
 
-            $sql = "SELECT monto 
+            /* MULTA POR DAÑO */
+
+            if ($condicion_devuelta > $data['id_condicion']) {
+
+                if ($condicion_devuelta == 2) {
+                    $id_catalogo = 2;
+                } else {
+                    $id_catalogo = 3;
+                }
+
+                $sql = "SELECT monto 
                     FROM catalogo_multa 
                     WHERE id_catalogo_multa = :id";
 
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([':id' => $id_catalogo]);
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([':id' => $id_catalogo]);
 
-            $cat = $stmt->fetch(PDO::FETCH_ASSOC);
+                $cat = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $multa = true;
+                $multa = true;
 
-            $monto_total += $cat['monto'];
+                $monto_total += $cat['monto'];
 
-            $motivos[] = $id_catalogo;
-        }
+                $motivos[] = $id_catalogo;
+            }
 
-        /* CREAR MULTA */
+            /* CREAR MULTA */
 
-        if ($multa) {
+            if ($multa) {
 
-            $sql = "INSERT INTO multa
-                (monto_total, pagada)
-                VALUES
-                (:monto, 0)";
+                $sql = "INSERT INTO multa
+    (monto_total, pagada)
+    VALUES
+    (:monto, 0)";
 
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':monto' => $monto_total
-            ]);
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([
+                    ':monto' => $monto_total
+                ]);
 
-            $id_multa = $this->db->lastInsertId();
+                $id_multa = $this->db->lastInsertId();
 
-            $sql = "INSERT INTO devolucion_multa
-                (id_devolucion, id_multa)
-                VALUES
-                (:devolucion, :multa)";
+                /* OBTENER USERNAME */
 
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                ':devolucion' => $id_devolucion,
-                ':multa' => $id_multa
-            ]);
+                $sql = "SELECT username
+            FROM usuario
+            WHERE id_usuario = :id";
 
-            foreach ($motivos as $motivo) {
+                $stmtUser = $this->db->prepare($sql);
+                $stmtUser->execute([
+                    ':id' => $data['id_usuario']
+                ]);
 
-                $sql = "INSERT INTO multa_catalogo_multa
+                $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
+                $username = $user['username'];
+
+                /* REGISTRAR BITACORA */
+
+                $bitacora = new Bitacora();
+
+                $bitacora->registrar(
+                    6,
+                    "Multa generada por $" . $monto_total .
+                    " al usuario " . $username .
+                    " por devolución del libro '" . $data['titulo'] . "'"
+                );
+
+                $sql = "INSERT INTO devolucion_multa
+    (id_devolucion, id_multa)
+    VALUES
+    (:devolucion, :multa)";
+
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([
+                    ':devolucion' => $id_devolucion,
+                    ':multa' => $id_multa
+                ]);
+
+                foreach ($motivos as $motivo) {
+
+                    $sql = "INSERT INTO multa_catalogo_multa
                     (id_multa, id_catalogo_multa)
                     VALUES
                     (:multa, :catalogo)";
 
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([
-                    ':multa' => $id_multa,
-                    ':catalogo' => $motivo
-                ]);
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->execute([
+                        ':multa' => $id_multa,
+                        ':catalogo' => $motivo
+                    ]);
+                }
             }
+
+            $this->db->commit();
+
+            return [
+                'multa' => $multa,
+                'monto' => $monto_total,
+                'titulo' => $data['titulo'],
+                'id_usuario' => $data['id_usuario']
+            ];
+
+        } catch (Exception $e) {
+
+            $this->db->rollBack();
+            return false;
         }
-
-        $this->db->commit();
-
-        return [
-            'multa' => $multa,
-            'monto' => $monto_total,
-            'titulo' => $data['titulo'],
-            'id_usuario' => $data['id_usuario']
-        ];
-
-    } catch (Exception $e) {
-
-        $this->db->rollBack();
-        return false;
     }
-}
 
 
     private function obtenerTituloLibro($id_libro)

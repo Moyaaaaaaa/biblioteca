@@ -14,7 +14,6 @@ class MultaController extends Controller
             header("Location: " . BASE_URL . "AuthController/login");
             exit;
         }
-
     }
 
 
@@ -49,7 +48,41 @@ class MultaController extends Controller
 
         $multaModel = $this->model('Multa');
 
+        /* OBTENER INFORMACION DEL USUARIO DE LA MULTA */
+
+        $db = new Database();
+        $conn = $db->conn;
+
+        $sql = "SELECT u.username
+                FROM multa m
+                JOIN devolucion_multa dm ON m.id_multa = dm.id_multa
+                JOIN devolucion d ON dm.id_devolucion = d.id_devolucion
+                JOIN prestamo p ON d.id_prestamo = p.id_prestamo
+                JOIN usuario u ON p.id_usuario = u.id_usuario
+                WHERE m.id_multa = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':id' => $id_multa
+        ]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $username = $user['username'];
+
+        /* PAGAR MULTA */
+
         $multaModel->pagar($id_multa);
+
+        /* REGISTRAR BITACORA */
+
+        $bitacora = $this->model('Bitacora');
+
+        $bitacora->registrar(
+            8,
+            "Pago de multa del usuario " . $username .
+            " registrado por " . $_SESSION['usuario']['username']
+        );
 
         header("Location: " . BASE_URL . "MultaController/index");
     }

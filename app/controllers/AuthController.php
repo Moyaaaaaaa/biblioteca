@@ -85,7 +85,7 @@ class AuthController extends Controller
 
             $bitacora->registrar(
                 1,
-                "Inicio de sesión del usuario ".$_SESSION['usuario']['username']
+                "Inicio de sesión del usuario " . $_SESSION['usuario']['username']
             );
 
             exit;
@@ -251,6 +251,29 @@ class AuthController extends Controller
         $usuarioModel->actualizarPassword(
             $rec['id_usuario'],
             $password
+        );
+
+        /* OBTENER USERNAME */
+
+        $sql = "SELECT username
+        FROM usuario
+        WHERE id_usuario = :id";
+
+        $stmt = $usuarioModel->db->prepare($sql);
+        $stmt->execute([
+            ':id' => $rec['id_usuario']
+        ]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $username = $user['username'];
+
+        /* REGISTRAR BITACORA */
+
+        $bitacora = $this->model('Bitacora');
+
+        $bitacora->registrar(
+            7,
+            "El usuario " . $username . " cambió su contraseña"
         );
 
         $recModel->marcarUsado($rec['id_recuperacion']);

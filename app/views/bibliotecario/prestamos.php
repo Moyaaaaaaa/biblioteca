@@ -203,14 +203,14 @@ Registrar devolución
 
 <?php if($_SESSION['usuario']['id_rol']==1): ?>
 
-<a href="<?= BASE_URL ?>AdminController/index">
-Volver
+<a class="volver" href="<?= BASE_URL ?>AdminController/index">
+← Volver
 </a>
 
 <?php else: ?>
 
-<a href="<?= BASE_URL ?>BibliotecarioController/index">
-Volver
+<a class="volver" href="<?= BASE_URL ?>BibliotecarioController/index">
+← Volver
 </a>
 
 <?php endif; ?>

@@ -33,17 +33,14 @@ class Bitacora
     {
 
         $sql = "SELECT 
-        b.fecha_bitacora,
-        b.hora,
-        a.descripcion as accion,
-        b.descripcion_detallada
-
-        FROM bitacora b
-
-        JOIN accion a
-        ON b.id_accion = a.id_accion
-
-        ORDER BY b.fecha_bitacora DESC";
+            b.fecha_bitacora,
+            b.hora,
+            a.descripcion AS accion,
+            b.descripcion_detallada
+            FROM bitacora b
+            LEFT JOIN accion a
+            ON b.id_accion = a.id_accion
+            ORDER BY b.fecha_bitacora DESC, b.hora DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
