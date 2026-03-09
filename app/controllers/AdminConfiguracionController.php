@@ -41,6 +41,12 @@ class AdminConfiguracionController extends Controller
 
                 $configModel->actualizar($id_config, $dias, $multa);
             }
+            $bitacora = $this->model('Bitacora');
+
+            $bitacora->registrar(
+                4,
+                "Configuración del sistema modificada"
+            );
 
             header("Location: " . BASE_URL . "AdminConfiguracionController/index");
             exit;

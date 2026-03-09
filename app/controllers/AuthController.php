@@ -81,6 +81,13 @@ class AuthController extends Controller
                 header("Location: " . BASE_URL . "DashboardController/index");
             }
 
+            $bitacora = $this->model('Bitacora');
+
+            $bitacora->registrar(
+                1,
+                "Inicio de sesión del usuario ".$_SESSION['usuario']['username']
+            );
+
             exit;
         }
 

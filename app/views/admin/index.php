@@ -196,6 +196,16 @@ transform:scale(1.05);
 <div class="text">Gestionar usuarios</div>
 </a>
 
+<a class="card" href="<?= BASE_URL ?>AdminReporteController/index">
+<div class="icon">📊</div>
+<div class="text">Ver reportes</div>
+</a>
+
+<a class="card" href="<?= BASE_URL ?>AdminBitacoraController/index">
+<div class="icon">📋</div>
+<div class="text">Ver bitácora</div>
+</a>
+
 </div>
 
 <a class="logout" href="<?= BASE_URL ?>AuthController/logout">

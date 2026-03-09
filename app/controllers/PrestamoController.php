@@ -113,6 +113,7 @@ class PrestamoController extends Controller
 
         /* CREAR PRESTAMO */
 
+
         $resultado = $prestamoModel->crearPrestamo($id_usuario, $id_libro, $rol);
 
         if ($resultado === "multa_pendiente") {
@@ -120,6 +121,13 @@ class PrestamoController extends Controller
             echo "No puedes solicitar préstamos hasta pagar tus multas.";
             exit;
         }
+
+        $bitacora = $this->model('Bitacora');
+
+        $bitacora->registrar(
+            2,
+            "Préstamo del libro " . $titulo . " al usuario " . $_SESSION['usuario']['username']
+        );
 
         if ($resultado) {
 

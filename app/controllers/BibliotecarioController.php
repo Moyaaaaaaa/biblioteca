@@ -52,5 +52,12 @@ class BibliotecarioController extends Controller
             'prestamo' => $prestamo,
             'condiciones' => $condiciones
         ]);
+
+        $bitacora = $this->model('Bitacora');
+
+        $bitacora->registrar(
+            3,
+            "Visualización de devolución del libro " . $prestamo['titulo']
+        );
     }
 }
