@@ -10,7 +10,7 @@ class AdminConfiguracionController extends Controller
             session_start();
         }
 
-        if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['id_rol'] != 1) {
+        if (!isset($_SESSION['usuario'])) {
             header("Location: " . BASE_URL . "AuthController/login");
             exit;
         }
@@ -21,24 +21,29 @@ class AdminConfiguracionController extends Controller
 
         $configModel = $this->model('Configuracion');
 
-        $config = $configModel->obtener();
+        $configs = $configModel->obtenerConfiguraciones();
 
         $this->view('admin/configuracion', [
-            'config' => $config
+            'configuraciones' => $configs
         ]);
     }
 
     public function actualizar()
     {
 
-        $configModel = $this->model('Configuracion');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        $configModel->actualizar(
-            $_POST['dias_prestamo'],
-            $_POST['multa_dia']
-        );
+            $configModel = $this->model('Configuracion');
 
-        header("Location: " . BASE_URL . "AdminConfiguracionController/index");
-        exit;
+            foreach ($_POST['dias_prestamo'] as $id_config => $dias) {
+
+                $multa = $_POST['multa_dia'][$id_config];
+
+                $configModel->actualizar($id_config, $dias, $multa);
+            }
+
+            header("Location: " . BASE_URL . "AdminConfiguracionController/index");
+            exit;
+        }
     }
 }

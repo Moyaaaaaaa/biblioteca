@@ -40,7 +40,8 @@ class Prestamo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function crearPrestamo($id_usuario, $id_libro)
+
+    public function crearPrestamo($id_usuario, $id_libro, $id_rol)
     {
 
         $sql = "SELECT COUNT(*) as total
@@ -86,9 +87,8 @@ class Prestamo
 
             $fecha_prestamo = date('Y-m-d');
 
-            /**MODIFICACION ADMIN*/
             $configModel = new Configuracion();
-            $config = $configModel->obtener();
+            $config = $configModel->obtenerPorRol($id_rol);
 
             $fecha_limite = date('Y-m-d', strtotime("+" . $config['dias_prestamo'] . " days"));
 
@@ -120,12 +120,14 @@ class Prestamo
                 'titulo' => $this->obtenerTituloLibro($id_libro),
                 'fecha_limite' => $fecha_limite
             ];
+
         } catch (Exception $e) {
 
             $this->db->rollBack();
             return false;
         }
     }
+
 
     public function todosPrestamosActivos()
     {
@@ -156,8 +158,13 @@ class Prestamo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
     public function devolver($id_prestamo, $condicion_devuelta)
-    {
+{
+
+    try {
+
+        $this->db->beginTransaction();
 
         $sql = "SELECT 
                 p.id_ejemplar,
@@ -176,7 +183,7 @@ class Prestamo
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) {
-            return false;
+            throw new Exception("Prestamo no encontrado");
         }
 
         $fecha_devolucion = date("Y-m-d");
@@ -186,6 +193,8 @@ class Prestamo
         if ($dias_retraso < 0) {
             $dias_retraso = 0;
         }
+
+        /* REGISTRAR DEVOLUCION */
 
         $sql = "INSERT INTO devolucion
             (id_prestamo, fecha_devolucion, dias_retraso, id_condicion)
@@ -202,6 +211,8 @@ class Prestamo
 
         $id_devolucion = $this->db->lastInsertId();
 
+        /* ACTUALIZAR ESTADO DEL EJEMPLAR */
+
         $sql = "UPDATE ejemplar
             SET id_estado = 1,
                 id_condicion = :condicion
@@ -217,23 +228,23 @@ class Prestamo
         $monto_total = 0;
         $motivos = [];
 
+        /* MULTA POR RETRASO */
+
         if ($dias_retraso > 0) {
 
-            $sql = "SELECT monto FROM catalogo_multa WHERE id_catalogo_multa = 1";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute();
-
-            $cat = $stmt->fetch(PDO::FETCH_ASSOC);
+            $configModel = new Configuracion();
+            $config = $configModel->obtenerPorRol(
+                $this->obtenerRolUsuario($data['id_usuario'])
+            );
 
             $multa = true;
-            /* MODIFICACION ADMIN */
-            $configModel = new Configuracion();
-            $config = $configModel->obtener();
 
             $monto_total += $dias_retraso * $config['multa_dia'];
 
             $motivos[] = 1;
         }
+
+        /* MULTA POR DAÑO */
 
         if ($condicion_devuelta > $data['id_condicion']) {
 
@@ -243,7 +254,10 @@ class Prestamo
                 $id_catalogo = 3;
             }
 
-            $sql = "SELECT monto FROM catalogo_multa WHERE id_catalogo_multa = :id";
+            $sql = "SELECT monto 
+                    FROM catalogo_multa 
+                    WHERE id_catalogo_multa = :id";
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute([':id' => $id_catalogo]);
 
@@ -255,6 +269,8 @@ class Prestamo
 
             $motivos[] = $id_catalogo;
         }
+
+        /* CREAR MULTA */
 
         if ($multa) {
 
@@ -296,13 +312,22 @@ class Prestamo
             }
         }
 
+        $this->db->commit();
+
         return [
             'multa' => $multa,
             'monto' => $monto_total,
             'titulo' => $data['titulo'],
             'id_usuario' => $data['id_usuario']
         ];
+
+    } catch (Exception $e) {
+
+        $this->db->rollBack();
+        return false;
     }
+}
+
 
     private function obtenerTituloLibro($id_libro)
     {
@@ -316,26 +341,27 @@ class Prestamo
         return $libro ? $libro['titulo'] : '';
     }
 
-    public function devolucionesUsuario($id_usuario)
+
+    private function obtenerRolUsuario($id_usuario)
+    {
+        $sql = "SELECT id_rol FROM usuario WHERE id_usuario = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id_usuario]);
+
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $res['id_rol'];
+    }
+
+
+    public function prestamosActivosUsuario($id_usuario)
     {
 
-        $sql = "SELECT 
-        l.titulo,
-        e.codigo_etiqueta,
-        p.fecha_prestamo,
-        d.fecha_devolucion,
-        d.dias_retraso,
-        c.condicion,
-        m.monto_total
-        FROM devolucion d
-        JOIN prestamo p ON d.id_prestamo = p.id_prestamo
-        JOIN ejemplar e ON p.id_ejemplar = e.id_ejemplar
-        JOIN libro l ON e.id_libro = l.id_libro
-        JOIN condicion c ON d.id_condicion = c.id_condicion
-        LEFT JOIN devolucion_multa dm ON d.id_devolucion = dm.id_devolucion
-        LEFT JOIN multa m ON dm.id_multa = m.id_multa
+        $sql = "SELECT COUNT(*) as total
+        FROM prestamo p
+        LEFT JOIN devolucion d ON p.id_prestamo = d.id_prestamo 
         WHERE p.id_usuario = :usuario
-        ORDER BY d.fecha_devolucion DESC";
+        AND d.id_devolucion IS NULL";
 
         $stmt = $this->db->prepare($sql);
 
@@ -343,23 +369,26 @@ class Prestamo
             ':usuario' => $id_usuario
         ]);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['total'];
     }
 
     public function detallePrestamo($id_prestamo)
     {
 
         $sql = "SELECT
-        p.id_prestamo,
-        l.titulo,
-        e.codigo_etiqueta,
-        c.condicion,
-        p.fecha_limite
-        FROM prestamo p
-        JOIN ejemplar e ON p.id_ejemplar=e.id_ejemplar
-        JOIN libro l ON e.id_libro=l.id_libro
-        JOIN condicion c ON e.id_condicion=c.id_condicion
-        WHERE p.id_prestamo=:id";
+            p.id_prestamo,
+            p.id_usuario,
+            l.titulo,
+            e.codigo_etiqueta,
+            c.condicion,
+            p.fecha_limite
+            FROM prestamo p
+            JOIN ejemplar e ON p.id_ejemplar = e.id_ejemplar
+            JOIN libro l ON e.id_libro = l.id_libro
+            JOIN condicion c ON e.id_condicion = c.id_condicion
+            WHERE p.id_prestamo = :id";
 
         $stmt = $this->db->prepare($sql);
 
@@ -369,28 +398,4 @@ class Prestamo
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    public function prestamosActivosUsuario($id_usuario)
-{
-
-$sql = "SELECT COUNT(*) as total
-FROM prestamo p
-
-LEFT JOIN devolucion d
-ON p.id_prestamo = d.id_prestamo
-
-WHERE p.id_usuario = :usuario
-AND d.id_devolucion IS NULL";
-
-$stmt = $this->db->prepare($sql);
-
-$stmt->execute([
-':usuario' => $id_usuario
-]);
-
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-return $result['total'];
-
-}
 }

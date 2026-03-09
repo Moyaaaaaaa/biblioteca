@@ -73,9 +73,11 @@ class PrestamoController extends Controller
 
         if ($prestamos_activos >= $limite) {
 
-            echo "Has alcanzado el número máximo de préstamos permitidos.";
+            $this->view('usuarios/limite_prestamos', [
+                'limite' => $limite
+            ]);
 
-            exit;
+            return;
         }
 
         /* OBTENER LIBRO */
@@ -83,25 +85,39 @@ class PrestamoController extends Controller
         $libroModel = $this->model('Libro');
         $libro = $libroModel->obtenerLibro($id_libro);
 
+        if (!$libro) {
+
+            echo "El libro no existe.";
+            exit;
+        }
+
         $titulo = $libro['titulo'];
 
-        /* CALCULAR FECHA LIMITE */
+        /* OBTENER CONFIGURACION SEGUN ROL */
 
         $configModel = $this->model('Configuracion');
-        $config = $configModel->obtener();
+
+        $config = $configModel->obtenerPorRol($rol);
+
+        if (!$config) {
+
+            echo "No existe configuración para este tipo de usuario.";
+            exit;
+        }
 
         $dias = $config['dias_prestamo'];
+
+        /* CALCULAR FECHA LIMITE */
 
         $fecha_limite = date('Y-m-d', strtotime("+$dias days"));
 
         /* CREAR PRESTAMO */
 
-        $resultado = $prestamoModel->crearPrestamo($id_usuario, $id_libro);
+        $resultado = $prestamoModel->crearPrestamo($id_usuario, $id_libro, $rol);
 
         if ($resultado === "multa_pendiente") {
 
             echo "No puedes solicitar préstamos hasta pagar tus multas.";
-
             exit;
         }
 
