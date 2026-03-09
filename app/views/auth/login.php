@@ -172,6 +172,17 @@ Iniciar sesión
 
 </form>
 
+
+<p style="margin-top:15px; text-align:center;">
+
+<a href="<?= BASE_URL ?>AuthController/recuperar" style="color:#6366f1; text-decoration:none;">
+
+¿Olvidaste tu contraseña?
+
+</a>
+
+</p>
+
 <div class="login-footer">
 Sistema de gestión bibliotecaria
 </div>

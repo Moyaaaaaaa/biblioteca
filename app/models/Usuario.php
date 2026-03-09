@@ -195,4 +195,38 @@ ORDER BY u.nombre, u.apellido_paterno";
 
     }
 
+    public function buscarPorUsuarioCorreo($usuario, $correo)
+    {
+
+        $sql = "SELECT *
+            FROM usuario
+            WHERE username = :usuario
+            AND correo = :correo";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':usuario' => $usuario,
+            ':correo' => $correo
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function actualizarPassword($id_usuario, $password)
+    {
+
+        $sql = "UPDATE usuario
+            SET contrasenia = :password
+            WHERE id_usuario = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':password' => $password,
+            ':id' => $id_usuario
+        ]);
+
+    }
+
 }

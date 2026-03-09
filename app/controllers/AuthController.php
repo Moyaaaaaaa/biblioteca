@@ -168,4 +168,86 @@ class AuthController extends Controller
 
         exit;
     }
+
+    public function recuperar()
+    {
+        $this->view('auth/recuperar');
+    }
+
+    public function generarRecuperacion()
+    {
+
+        $usuario = $_POST['usuario'];
+        $correo = $_POST['correo'];
+
+        $usuarioModel = $this->model('Usuario');
+
+        $user = $usuarioModel->buscarPorUsuarioCorreo($usuario, $correo);
+
+        if (!$user) {
+
+            $this->view('auth/error_recuperacion');
+
+            return;
+
+        }
+
+        $recModel = $this->model('Recuperacion');
+
+        $token = $recModel->generarToken($user['id_usuario']);
+
+        $link = BASE_URL . "AuthController/reset?token=" . $token;
+
+        $this->view('auth/enlace_generado', [
+            'link' => $link
+        ]);
+    }
+
+    public function reset()
+    {
+
+        $token = $_GET['token'];
+
+        $recModel = $this->model('Recuperacion');
+
+        $rec = $recModel->validarToken($token);
+
+        if (!$rec) {
+
+            echo "Token inválido o expirado";
+            return;
+        }
+
+        $this->view('auth/reset', [
+            'token' => $token
+        ]);
+    }
+
+    public function guardarNuevaPassword()
+    {
+
+        $token = $_POST['token'];
+        $password = $_POST['password'];
+
+        $recModel = $this->model('Recuperacion');
+
+        $rec = $recModel->validarToken($token);
+
+        if (!$rec) {
+
+            echo "Token inválido";
+            return;
+        }
+
+        $usuarioModel = $this->model('Usuario');
+
+        $usuarioModel->actualizarPassword(
+            $rec['id_usuario'],
+            $password
+        );
+
+        $recModel->marcarUsado($rec['id_recuperacion']);
+
+        header("Location: " . BASE_URL . "AuthController/login");
+    }
 }
