@@ -17,25 +17,20 @@ font-family:'Montserrat',sans-serif;
 }
 
 body{
-
 background:#ffffff;
 padding:60px;
-
 }
 
 /* TITULO */
 
 h2{
-
 font-size:40px;
-
 margin-bottom:30px;
 
 background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-
 }
 
 /* BOTON AGREGAR */
@@ -43,7 +38,6 @@ background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 .btn-agregar{
 
 display:inline-block;
-
 margin-bottom:30px;
 
 padding:10px 20px;
@@ -69,6 +63,7 @@ transform:scale(1.05);
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 
 }
+
 .barra-superior{
 
 display:flex;
@@ -260,9 +255,7 @@ color:white;
 </div>
 
 <a class="btn-agregar" href="<?= BASE_URL ?>BibliotecarioLibroController/crear">
-
 + Agregar Libro
-
 </a>
 
 <table>
@@ -273,6 +266,7 @@ color:white;
 <th>ISBN</th>
 <th>Año</th>
 <th>Categoría</th>
+<th>Autores</th>
 <th>Ejemplares</th>
 <th>Acciones</th>
 </tr>
@@ -291,29 +285,25 @@ color:white;
 
 <td><?= $libro['categoria'] ?></td>
 
+<td><?= $libro['autores'] ?? '—' ?></td>
+
 <td><?= $libro['ejemplares'] ?></td>
 
 <td>
 
 <a class="accion editar"
 href="<?= BASE_URL ?>BibliotecarioLibroController/editar/<?= $libro['id_libro'] ?>">
-
 Editar
-
 </a>
 
 <a class="accion eliminar"
 href="<?= BASE_URL ?>BibliotecarioLibroController/eliminar/<?= $libro['id_libro'] ?>">
-
 Eliminar
-
 </a>
 
 <a class="accion ejemplar"
 href="<?= BASE_URL ?>BibliotecarioEjemplarController/crear/<?= $libro['id_libro'] ?>">
-
 Agregar ejemplar
-
 </a>
 
 </td>
@@ -325,5 +315,4 @@ Agregar ejemplar
 </table>
 
 </body>
-
 </html>

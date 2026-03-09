@@ -49,33 +49,46 @@ class Libro
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function todos()
-    {
+public function todos()
+{
 
-        $sql = "SELECT 
-        l.id_libro,
-        l.titulo,
-        l.isbn,
-        l.anio_publicacion,
-        c.categoria,
-        COUNT(e.id_ejemplar) AS ejemplares
+$sql = "SELECT 
+l.id_libro,
+l.titulo,
+l.isbn,
+l.anio_publicacion,
+c.categoria,
 
-        FROM libro l
+GROUP_CONCAT(
+DISTINCT CONCAT(a.nombre,' ',a.apellido_paterno,' ',a.apellido_materno)
+SEPARATOR ', '
+) AS autores,
 
-        LEFT JOIN categoria c
-        ON l.id_categoria = c.id_categoria
+COUNT(DISTINCT e.id_ejemplar) AS ejemplares
 
-        LEFT JOIN ejemplar e
-        ON l.id_libro = e.id_libro
+FROM libro l
 
-        GROUP BY l.id_libro";
+LEFT JOIN categoria c
+ON l.id_categoria = c.id_categoria
 
-        $stmt = $this->db->prepare($sql);
+LEFT JOIN libro_autor la
+ON l.id_libro = la.id_libro
 
-        $stmt->execute();
+LEFT JOIN autor a
+ON la.id_autor = a.id_autor
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+LEFT JOIN ejemplar e
+ON l.id_libro = e.id_libro
+
+GROUP BY l.id_libro";
+
+$stmt = $this->db->prepare($sql);
+
+$stmt->execute();
+
+return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
 
     public function obtenerLibro($id_libro)
     {
