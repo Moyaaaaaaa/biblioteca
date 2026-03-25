@@ -23,8 +23,6 @@ display:flex;
 justify-content:center;
 }
 
-/* CONTENEDOR */
-
 .container{
 
 width:520px;
@@ -39,8 +37,6 @@ box-shadow:0 20px 50px rgba(0,0,0,0.08);
 
 }
 
-/* HEADER */
-
 .header{
 
 display:flex;
@@ -49,8 +45,6 @@ align-items:center;
 margin-bottom:35px;
 
 }
-
-/* TITULO */
 
 h2{
 
@@ -62,8 +56,6 @@ background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 -webkit-text-fill-color:transparent;
 
 }
-
-/* BOTON VOLVER */
 
 .volver{
 
@@ -91,8 +83,6 @@ box-shadow:0 8px 20px rgba(0,0,0,0.2);
 
 }
 
-/* LABEL */
-
 label{
 
 font-size:14px;
@@ -102,8 +92,6 @@ font-weight:500;
 color:#333;
 
 }
-
-/* INPUTS */
 
 input, select{
 
@@ -133,8 +121,6 @@ box-shadow:0 0 0 2px rgba(99,102,241,0.15);
 
 }
 
-/* AUTORES */
-
 .autores{
 
 border:1px solid #ddd;
@@ -162,8 +148,6 @@ font-size:13px;
 color:#444;
 
 }
-
-/* BOTON */
 
 button{
 

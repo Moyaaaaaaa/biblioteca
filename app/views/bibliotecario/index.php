@@ -24,8 +24,6 @@ padding:60px;
 
 }
 
-/* TITULO */
-
 h2{
 
 font-size:40px;
@@ -39,8 +37,6 @@ background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 
 }
 
-/* GRID */
-
 .grid{
 
 display:grid;
@@ -50,8 +46,6 @@ grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
 gap:30px;
 
 }
-
-/* TARJETAS */
 
 .card{
 
@@ -89,8 +83,6 @@ box-shadow:0 20px 40px rgba(0,0,0,0.12);
 
 }
 
-/* ICONO */
-
 .icon{
 
 font-size:45px;
@@ -99,8 +91,6 @@ margin-bottom:12px;
 
 }
 
-/* TEXTO */
-
 .text{
 
 font-size:18px;
@@ -108,8 +98,6 @@ font-size:18px;
 font-weight:500;
 
 }
-
-/* BOTON CERRAR */
 
 .logout{
 

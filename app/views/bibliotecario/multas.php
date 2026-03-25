@@ -22,7 +22,6 @@ color:white;
 padding:60px;
 }
 
-/* TITULO */
 
 h2{
 
@@ -36,8 +35,6 @@ background:linear-gradient(90deg,#00f2ff,#7b61ff,#ff4ecd);
 -webkit-text-fill-color:transparent;
 
 }
-
-/* TABLA */
 
 table{
 
@@ -55,8 +52,6 @@ box-shadow:0 15px 40px rgba(0,0,0,0.6);
 
 }
 
-/* ENCABEZADO */
-
 th{
 
 background:#000;
@@ -70,8 +65,6 @@ text-align:left;
 border-bottom:1px solid #222;
 
 }
-
-/* FILAS */
 
 td{
 
@@ -89,8 +82,6 @@ tr:hover{
 background:#1a1a1a;
 }
 
-/* ESTADOS */
-
 .estado-pendiente{
 color:#ff4ecd;
 font-weight:500;
@@ -100,8 +91,6 @@ font-weight:500;
 color:#00f2ff;
 font-weight:500;
 }
-
-/* BOTON PAGAR */
 
 .btn-pagar{
 
@@ -129,16 +118,12 @@ box-shadow:0 0 15px rgba(0,255,255,0.6);
 
 }
 
-/* CHECK PAGADO */
-
 .check{
 
 color:#00f2ff;
 font-size:18px;
 
 }
-
-/* BOTON VOLVER */
 
 .volver{
 

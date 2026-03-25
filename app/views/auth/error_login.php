@@ -16,7 +16,6 @@ box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
 
-/* FONDO */
 
 body{
 
@@ -30,7 +29,6 @@ align-items:center;
 
 }
 
-/* TARJETA */
 
 .container{
 
@@ -48,7 +46,6 @@ box-shadow:0 25px 80px rgba(0,0,0,0.08);
 
 }
 
-/* ICONO */
 
 .icono{
 
@@ -58,7 +55,6 @@ margin-bottom:15px;
 
 }
 
-/* TITULO */
 
 h1{
 
@@ -73,8 +69,6 @@ background:linear-gradient(90deg,#06b6d4,#14b8a6,#3b82f6);
 
 }
 
-/* TEXTO */
-
 p{
 
 color:#555;
@@ -84,8 +78,6 @@ font-size:14px;
 margin-bottom:35px;
 
 }
-
-/* BOTON */
 
 .btn{
 

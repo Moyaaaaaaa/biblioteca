@@ -6,10 +6,8 @@
 <meta charset="UTF-8">
 <title>Login Biblioteca</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -29,7 +27,6 @@ align-items:center;
 justify-content:center;
 }
 
-/* contenedor */
 
 .login-container{
 
@@ -42,7 +39,6 @@ text-align:center;
 
 }
 
-/* titulo */
 
 .login-title{
 
@@ -56,7 +52,6 @@ background:linear-gradient(90deg,#2f80ed,#7b2ff7,#ff4d6d,#ff7a18);
 
 }
 
-/* inputs */
 
 .input-group{
 
@@ -92,7 +87,6 @@ border-color:#7b2ff7;
 
 }
 
-/* boton */
 
 button{
 
@@ -115,7 +109,6 @@ opacity:0.9;
 
 }
 
-/* footer */
 
 .login-footer{
 

@@ -16,7 +16,6 @@ box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
 
-/* FONDO */
 
 body{
 
@@ -34,7 +33,6 @@ color:white;
 
 }
 
-/* CONTENEDOR */
 
 .container{
 
@@ -50,8 +48,6 @@ box-shadow:0 25px 70px rgba(0,0,0,0.9);
 
 }
 
-/* HEADER */
-
 .header{
 
 display:flex;
@@ -62,7 +58,6 @@ margin-bottom:40px;
 
 }
 
-/* TITULO */
 
 h2{
 
@@ -75,7 +70,6 @@ background:linear-gradient(90deg,#2f80ed,#7b2ff7,#ff4d6d,#ff7a18);
 
 }
 
-/* BOTON VOLVER */
 
 .volver{
 
@@ -102,8 +96,6 @@ box-shadow:0 8px 20px rgba(0,0,0,0.5);
 
 }
 
-/* LABEL */
-
 label{
 
 font-size:14px;
@@ -114,7 +106,6 @@ color:#ccc;
 
 }
 
-/* INPUT */
 
 input{
 
@@ -148,7 +139,6 @@ box-shadow:0 0 0 2px rgba(123,47,247,0.25);
 
 }
 
-/* BOTON */
 
 button{
 

@@ -41,7 +41,6 @@ class Devolucion {
 
         $this->db->beginTransaction();
 
-        // 1️⃣ Obtener préstamo
         $sql = "SELECT fecha_limite
                 FROM prestamo
                 WHERE id_prestamo = :id_prestamo";
@@ -62,7 +61,6 @@ class Devolucion {
             ? $fecha_limite->diff($fecha_actual)->days
             : 0;
 
-        // 2️⃣ Insertar devolución
         $sql = "INSERT INTO devolucion
                 (id_prestamo, fecha_devolucion, dias_retraso, id_condicion)
                 VALUES
@@ -77,7 +75,6 @@ class Devolucion {
 
         $id_devolucion = $this->db->lastInsertId();
 
-        // 3️⃣ Cambiar estado del ejemplar a Disponible
         $sql = "UPDATE ejemplar
                 SET id_estado = 1
                 WHERE id_ejemplar = (
@@ -90,13 +87,11 @@ class Devolucion {
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':id_prestamo'=>$id_prestamo]);
 
-        // 4️⃣ Si hay retraso, generar multa
         if($dias_retraso > 0){
 
-            $monto_por_dia = 10; // puedes cambiarlo
+            $monto_por_dia = 10; 
             $monto_total = $dias_retraso * $monto_por_dia;
 
-            // Insertar multa
             $sql = "INSERT INTO multa (monto_total, pagada)
                     VALUES (:monto_total, 0)";
 
@@ -107,7 +102,6 @@ class Devolucion {
 
             $id_multa = $this->db->lastInsertId();
 
-            // Relacionar multa con devolución
             $sql = "INSERT INTO devolucion_multa
                     (id_devolucion, id_multa)
                     VALUES (:id_devolucion, :id_multa)";

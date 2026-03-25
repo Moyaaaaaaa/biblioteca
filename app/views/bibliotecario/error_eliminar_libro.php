@@ -23,8 +23,6 @@ display:flex;
 justify-content:center;
 }
 
-/* CONTENEDOR */
-
 .container{
 
 width:500px;
@@ -41,8 +39,6 @@ text-align:center;
 
 }
 
-/* TITULO */
-
 h2{
 
 font-size:32px;
@@ -56,8 +52,6 @@ background:linear-gradient(90deg,#ef4444,#f97316);
 
 }
 
-/* MENSAJE */
-
 p{
 
 font-size:16px;
@@ -67,8 +61,6 @@ color:#444;
 margin-bottom:25px;
 
 }
-
-/* BOTON VOLVER */
 
 .volver{
 

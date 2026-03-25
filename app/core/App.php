@@ -16,7 +16,6 @@ class App
 
         $url = $this->parseUrl();
 
-        // CONTROLLER
         if (isset($url[0])) {
 
             $archivo = '../app/controllers/' . $url[0] . '.php';
@@ -33,15 +32,12 @@ class App
 
         $this->controller = new $this->controller;
 
-        // METHOD
-        // METHOD
         if (isset($url[1]) && method_exists($this->controller, $url[1])) {
 
             $this->method = $url[1];
             unset($url[1]);
         } else {
 
-            // si no existe método usa el método por defecto del controller
             if (!method_exists($this->controller, $this->method)) {
                 $this->method = 'index';
             }
@@ -49,9 +45,6 @@ class App
 
         $this->params = $url ? array_values($url) : [];
 
-        // ====== MIDDLEWARE AUTOMATICO ======
-
-        // NO proteger login
         if (!($this->controller instanceof AuthController)) {
 
             AuthMiddleware::verificar();

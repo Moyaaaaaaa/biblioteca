@@ -23,7 +23,6 @@ display:flex;
 justify-content:center;
 }
 
-/* CONTENEDOR */
 
 .container{
 
@@ -39,7 +38,6 @@ box-shadow:0 15px 40px rgba(0,0,0,0.08);
 
 }
 
-/* TITULO */
 
 h2{
 
@@ -54,7 +52,6 @@ background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 
 }
 
-/* TABLA */
 
 table{
 
@@ -100,7 +97,6 @@ background:#f3f4f6;
 
 }
 
-/* VOLVER */
 
 .volver{
 

@@ -195,7 +195,6 @@ class Prestamo
                 $dias_retraso = 0;
             }
 
-            /* REGISTRAR DEVOLUCION */
 
             $sql = "INSERT INTO devolucion
             (id_prestamo, fecha_devolucion, dias_retraso, id_condicion)
@@ -212,7 +211,6 @@ class Prestamo
 
             $id_devolucion = $this->db->lastInsertId();
 
-            /* ACTUALIZAR ESTADO DEL EJEMPLAR */
 
             $sql = "UPDATE ejemplar
             SET id_estado = 1,
@@ -229,7 +227,6 @@ class Prestamo
             $monto_total = 0;
             $motivos = [];
 
-            /* MULTA POR RETRASO */
 
             if ($dias_retraso > 0) {
 
@@ -245,7 +242,6 @@ class Prestamo
                 $motivos[] = 1;
             }
 
-            /* MULTA POR DAÑO */
 
             if ($condicion_devuelta > $data['id_condicion']) {
 
@@ -271,7 +267,6 @@ class Prestamo
                 $motivos[] = $id_catalogo;
             }
 
-            /* CREAR MULTA */
 
             if ($multa) {
 
@@ -287,7 +282,6 @@ class Prestamo
 
                 $id_multa = $this->db->lastInsertId();
 
-                /* OBTENER USERNAME */
 
                 $sql = "SELECT username
             FROM usuario
@@ -301,7 +295,6 @@ class Prestamo
                 $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
                 $username = $user['username'];
 
-                /* REGISTRAR BITACORA */
 
                 $bitacora = new Bitacora();
 

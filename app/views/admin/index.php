@@ -21,7 +21,6 @@ background:#ffffff;
 padding:60px;
 }
 
-/* TITULO */
 
 h2{
 
@@ -36,7 +35,6 @@ background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 
 }
 
-/* GRID */
 
 .grid{
 
@@ -48,7 +46,6 @@ gap:30px;
 
 }
 
-/* TARJETAS */
 
 .card{
 
@@ -86,7 +83,6 @@ box-shadow:0 20px 40px rgba(0,0,0,0.12);
 
 }
 
-/* ICONO */
 
 .icon{
 
@@ -96,7 +92,6 @@ margin-bottom:12px;
 
 }
 
-/* TEXTO */
 
 .text{
 
@@ -106,7 +101,6 @@ font-weight:500;
 
 }
 
-/* BOTON CERRAR */
 
 .logout{
 
@@ -174,11 +168,6 @@ transform:scale(1.05);
 <a class="card" href="<?= BASE_URL ?>BibliotecarioEditorialController/index">
 <div class="icon">🏢</div>
 <div class="text">Gestionar editoriales</div>
-</a>
-
-<a class="card" href="<?= BASE_URL ?>BibliotecarioController/prestamosActivos">
-<div class="icon">📖</div>
-<div class="text">Préstamos activos</div>
 </a>
 
 <a class="card" href="<?= BASE_URL ?>BibliotecarioController/prestamosActivos">

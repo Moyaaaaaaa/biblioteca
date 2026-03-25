@@ -21,8 +21,6 @@ background:#ffffff;
 padding:60px;
 }
 
-/* TITULO */
-
 h2{
 
 font-size:40px;
@@ -35,8 +33,6 @@ background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 -webkit-text-fill-color:transparent;
 
 }
-
-/* TABLA */
 
 table{
 
@@ -54,8 +50,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.08);
 
 }
 
-/* ENCABEZADO */
-
 th{
 
 background:#111;
@@ -69,8 +63,6 @@ font-weight:500;
 text-align:left;
 
 }
-
-/* FILAS */
 
 td{
 
@@ -87,8 +79,6 @@ transition:.2s;
 tr:hover{
 background:#f0f0f5;
 }
-
-/* BOTON DEVOLUCION */
 
 .btn-devolver{
 
@@ -115,8 +105,6 @@ background:#65a30d;
 color:white;
 
 }
-
-/* BOTON VOLVER */
 
 .volver{
 

@@ -116,7 +116,6 @@ class UsuarioController extends Controller
     public function eliminar($id)
     {
 
-        // SOLO ADMIN PUEDE ELIMINAR
 
         if($_SESSION['usuario']['id_rol'] != 1){
             echo "Solo administrador puede eliminar usuarios";

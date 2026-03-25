@@ -10,13 +10,11 @@ class BibliotecarioController extends Controller
             session_start();
         }
 
-        // Debe estar logueado
         if (!isset($_SESSION['usuario'])) {
             header("Location: " . BASE_URL . "AuthController/login");
             exit;
         }
 
-        // SOLO BIBLIOTECARIO (id_rol = 5)
         if ($_SESSION['usuario']['id_rol'] != 5 && $_SESSION['usuario']['id_rol'] != 1) {
             echo "Acceso denegado";
             exit;

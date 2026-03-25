@@ -22,7 +22,6 @@ color:white;
 padding:60px;
 }
 
-/* HEADER */
 
 .header{
 display:flex;
@@ -31,7 +30,6 @@ align-items:center;
 margin-bottom:50px;
 }
 
-/* TITULO */
 
 h2{
 
@@ -44,7 +42,6 @@ background:linear-gradient(90deg,#7dd3fc,#6366f1,#9333ea);
 
 }
 
-/* BOTON VOLVER */
 
 .volver{
 
@@ -71,8 +68,6 @@ box-shadow:0 8px 20px rgba(0,0,0,0.6);
 
 }
 
-/* GRID AUTORES */
-
 .grid{
 
 display:grid;
@@ -83,7 +78,6 @@ gap:30px;
 
 }
 
-/* TARJETA AUTOR */
 
 .card{
 
@@ -107,7 +101,6 @@ box-shadow:0 20px 50px rgba(0,0,0,0.8);
 
 }
 
-/* ICONO */
 
 .icon{
 
@@ -117,7 +110,6 @@ margin-bottom:15px;
 
 }
 
-/* NOMBRE AUTOR */
 
 .nombre{
 
@@ -129,7 +121,6 @@ margin-bottom:8px;
 
 }
 
-/* INFO */
 
 .info{
 
@@ -141,7 +132,6 @@ margin-bottom:4px;
 
 }
 
-/* BOTON */
 
 .btn{
 

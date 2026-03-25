@@ -17,7 +17,6 @@ class MultaController extends Controller
     }
 
 
-    // MULTAS ADMIN / BIBLIOTECARIO
     public function index()
     {
 
@@ -48,7 +47,6 @@ class MultaController extends Controller
 
         $multaModel = $this->model('Multa');
 
-        /* OBTENER INFORMACION DEL USUARIO DE LA MULTA */
 
         $db = new Database();
         $conn = $db->conn;
@@ -70,11 +68,9 @@ class MultaController extends Controller
 
         $username = $user['username'];
 
-        /* PAGAR MULTA */
 
         $multaModel->pagar($id_multa);
 
-        /* REGISTRAR BITACORA */
 
         $bitacora = $this->model('Bitacora');
 
@@ -88,7 +84,6 @@ class MultaController extends Controller
     }
 
 
-    // MULTAS DEL USUARIO
     public function misMultas()
     {
 

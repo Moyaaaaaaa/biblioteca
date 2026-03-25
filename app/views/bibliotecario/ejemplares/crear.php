@@ -16,8 +16,6 @@ box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
 
-/* FONDO */
-
 body{
 
 background:linear-gradient(180deg,#c7e7ff,#ffffff);
@@ -31,8 +29,6 @@ align-items:flex-start;
 padding:80px;
 
 }
-
-/* CONTENEDOR */
 
 .container{
 
@@ -48,8 +44,6 @@ box-shadow:0 20px 50px rgba(0,0,0,0.08);
 
 }
 
-/* HEADER */
-
 .header{
 
 display:flex;
@@ -59,8 +53,6 @@ align-items:center;
 margin-bottom:30px;
 
 }
-
-/* TITULO */
 
 h2{
 
@@ -73,7 +65,6 @@ background:linear-gradient(90deg,#2f80ed,#7b2ff7,#ff4d6d);
 
 }
 
-/* BOTON VOLVER */
 
 .volver{
 
@@ -100,7 +91,6 @@ box-shadow:0 8px 20px rgba(0,0,0,0.2);
 
 }
 
-/* LABEL */
 
 label{
 
@@ -112,7 +102,6 @@ color:#444;
 
 }
 
-/* INPUTS */
 
 input, select{
 
@@ -142,7 +131,6 @@ box-shadow:0 0 0 2px rgba(47,128,237,0.15);
 
 }
 
-/* TITULO LIBRO */
 
 h3{
 
@@ -152,7 +140,6 @@ margin-bottom:5px;
 
 }
 
-/* BOTON */
 
 button{
 

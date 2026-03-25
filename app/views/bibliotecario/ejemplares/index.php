@@ -21,16 +21,12 @@ background:#ffffff;
 padding:60px;
 }
 
-/* BARRA SUPERIOR */
-
 .barra{
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:30px;
 }
-
-/* TITULO */
 
 h2{
 
@@ -42,8 +38,6 @@ background:linear-gradient(90deg,#6366f1,#06b6d4,#9333ea);
 -webkit-text-fill-color:transparent;
 
 }
-
-/* BOTON AGREGAR */
 
 .btn-agregar{
 
@@ -71,8 +65,6 @@ box-shadow:0 10px 25px rgba(0,0,0,0.15);
 
 }
 
-/* TABLA */
-
 table{
 
 width:100%;
@@ -89,8 +81,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.08);
 
 }
 
-/* ENCABEZADO */
-
 th{
 
 background:#111;
@@ -104,8 +94,6 @@ font-weight:500;
 text-align:left;
 
 }
-
-/* FILAS */
 
 td{
 
@@ -123,8 +111,6 @@ tr:hover{
 background:#f0f0f5;
 }
 
-/* BOTONES ACCIONES */
-
 .accion{
 
 text-decoration:none;
@@ -141,8 +127,6 @@ transition:.3s;
 
 }
 
-/* EDITAR */
-
 .editar{
 
 background:#e0f2fe;
@@ -157,8 +141,6 @@ color:white;
 
 }
 
-/* ELIMINAR */
-
 .eliminar{
 
 background:#fee2e2;
@@ -172,8 +154,6 @@ background:#dc2626;
 color:white;
 
 }
-
-/* BOTON VOLVER */
 
 .volver{
 

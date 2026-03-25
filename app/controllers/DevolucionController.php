@@ -16,7 +16,6 @@ class DevolucionController extends Controller
         }
     }
 
-    // 👇 método por defecto
     public function index()
     {
         header("Location: " . BASE_URL . "BibliotecarioController/prestamosActivos");

@@ -16,8 +16,6 @@ box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
 
-/* FONDO */
-
 body{
 
 background:linear-gradient(180deg,#2dd4bf,#ffffff);
@@ -31,8 +29,6 @@ align-items:flex-start;
 padding:80px;
 
 }
-
-/* CONTENEDOR */
 
 .container{
 
@@ -48,8 +44,6 @@ box-shadow:0 25px 80px rgba(0,0,0,0.08);
 
 }
 
-/* HEADER */
-
 .header{
 
 display:flex;
@@ -59,8 +53,6 @@ align-items:center;
 margin-bottom:40px;
 
 }
-
-/* TITULO */
 
 .titulo{
 
@@ -72,8 +64,6 @@ background:linear-gradient(90deg,#06b6d4,#14b8a6,#3b82f6);
 -webkit-text-fill-color:transparent;
 
 }
-
-/* INFO PRESTAMO */
 
 .info{
 
@@ -99,8 +89,6 @@ color:#444;
 
 }
 
-/* LABEL */
-
 label{
 
 font-size:14px;
@@ -110,8 +98,6 @@ font-weight:500;
 color:#555;
 
 }
-
-/* SELECT */
 
 select{
 
@@ -144,8 +130,6 @@ box-shadow:0 0 0 2px rgba(20,184,166,0.15);
 background:white;
 
 }
-
-/* BOTON */
 
 button{
 
@@ -181,8 +165,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.15);
 
 }
 
-/* CONTENEDOR BOTONES */
-
 .botones{
 
 display:flex;
@@ -190,8 +172,6 @@ gap:15px;
 margin-top:30px;
 
 }
-
-/* BOTON CANCELAR */
 
 .cancelar{
 
@@ -222,8 +202,6 @@ background:#333;
 transform:scale(1.03);
 
 }
-
-/* BOTON PRINCIPAL */
 
 button{
 

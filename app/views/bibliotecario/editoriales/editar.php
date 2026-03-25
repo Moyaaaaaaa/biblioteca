@@ -16,7 +16,6 @@ box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
 
-/* FONDO */
 
 body{
 
@@ -32,7 +31,6 @@ padding:80px;
 
 }
 
-/* CONTENEDOR */
 
 .container{
 
@@ -48,7 +46,6 @@ box-shadow:0 25px 60px rgba(0,0,0,0.08);
 
 }
 
-/* HEADER */
 
 .header{
 
@@ -60,7 +57,6 @@ margin-bottom:40px;
 
 }
 
-/* TITULO */
 
 h2{
 
@@ -73,7 +69,6 @@ background:linear-gradient(90deg,#7b2ff7,#9333ea,#6366f1);
 
 }
 
-/* BOTON VOLVER */
 
 .volver{
 
@@ -100,7 +95,6 @@ box-shadow:0 8px 20px rgba(0,0,0,0.2);
 
 }
 
-/* LABEL */
 
 label{
 
@@ -112,7 +106,6 @@ color:#444;
 
 }
 
-/* INPUT */
 
 input{
 
@@ -142,7 +135,6 @@ box-shadow:0 0 0 2px rgba(123,47,247,0.15);
 
 }
 
-/* BOTON */
 
 button{
 

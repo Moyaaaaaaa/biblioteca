@@ -24,7 +24,6 @@ background:white;
 padding:60px;
 }
 
-/* titulo */
 
 h2{
 
@@ -37,7 +36,6 @@ background:linear-gradient(90deg,#2f80ed,#7b2ff7,#ff4d6d,#ff7a18);
 
 }
 
-/* tabla */
 
 table{
 
@@ -45,8 +43,6 @@ width:100%;
 border-collapse:collapse;
 
 }
-
-/* encabezado */
 
 th{
 
@@ -58,8 +54,6 @@ color:#666;
 
 }
 
-/* filas */
-
 td{
 
 padding:18px 14px;
@@ -68,15 +62,12 @@ font-size:14px;
 
 }
 
-/* hover fila */
 
 tr:hover{
 
 background:#fafafa;
 
 }
-
-/* boton prestar */
 
 .btn-prestar{
 
@@ -93,8 +84,6 @@ transition:all .25s;
 
 }
 
-/* animacion boton */
-
 .btn-prestar:hover{
 
 transform:translateY(-2px);
@@ -102,16 +91,12 @@ box-shadow:0 6px 14px rgba(0,0,0,0.15);
 
 }
 
-/* boton deshabilitado */
-
 .no-disponible{
 
 color:#999;
 font-size:13px;
 
 }
-
-/* volver */
 
 .volver{
 

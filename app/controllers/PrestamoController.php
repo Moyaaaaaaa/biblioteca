@@ -47,7 +47,6 @@ class PrestamoController extends Controller
 
         $prestamoModel = $this->model('Prestamo');
 
-        /* VALIDAR LIMITE DE PRESTAMOS */
 
         $prestamos_activos = $prestamoModel->prestamosActivosUsuario($id_usuario);
 
@@ -55,15 +54,15 @@ class PrestamoController extends Controller
 
         switch ($rol) {
 
-            case 2: // estudiante
+            case 2: 
                 $limite = 3;
                 break;
 
-            case 3: // docente
+            case 3: 
                 $limite = 5;
                 break;
 
-            case 4: // externo
+            case 4: 
                 $limite = 2;
                 break;
 
@@ -80,7 +79,6 @@ class PrestamoController extends Controller
             return;
         }
 
-        /* OBTENER LIBRO */
 
         $libroModel = $this->model('Libro');
         $libro = $libroModel->obtenerLibro($id_libro);
@@ -93,7 +91,6 @@ class PrestamoController extends Controller
 
         $titulo = $libro['titulo'];
 
-        /* OBTENER CONFIGURACION SEGUN ROL */
 
         $configModel = $this->model('Configuracion');
 
@@ -107,11 +104,9 @@ class PrestamoController extends Controller
 
         $dias = $config['dias_prestamo'];
 
-        /* CALCULAR FECHA LIMITE */
 
         $fecha_limite = date('Y-m-d', strtotime("+$dias days"));
 
-        /* CREAR PRESTAMO */
 
 
         $resultado = $prestamoModel->crearPrestamo($id_usuario, $id_libro, $rol);

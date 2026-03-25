@@ -16,7 +16,6 @@ box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
 
-/* FONDO */
 
 body{
 
@@ -32,7 +31,6 @@ padding:80px;
 
 }
 
-/* CONTENEDOR */
 
 .container{
 
@@ -48,8 +46,6 @@ box-shadow:0 20px 50px rgba(0,0,0,0.08);
 
 }
 
-/* HEADER */
-
 .header{
 
 display:flex;
@@ -59,8 +55,6 @@ align-items:center;
 margin-bottom:30px;
 
 }
-
-/* TITULO */
 
 h2{
 
@@ -72,8 +66,6 @@ background:linear-gradient(90deg,#2f80ed,#7b2ff7,#ff4d6d);
 -webkit-text-fill-color:transparent;
 
 }
-
-/* BOTON VOLVER */
 
 .volver{
 
@@ -101,8 +93,6 @@ box-shadow:0 8px 20px rgba(0,0,0,0.2);
 
 }
 
-/* LABEL */
-
 label{
 
 font-size:14px;
@@ -112,8 +102,6 @@ font-weight:500;
 color:#444;
 
 }
-
-/* INPUTS */
 
 input, select{
 
@@ -143,8 +131,6 @@ box-shadow:0 0 0 2px rgba(47,128,237,0.15);
 
 }
 
-/* AUTORES */
-
 .autores{
 
 border:1px solid #ddd;
@@ -172,8 +158,6 @@ font-size:13px;
 color:#333;
 
 }
-
-/* BOTON */
 
 button{
 
@@ -208,8 +192,6 @@ transform:scale(1.03);
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
 
 }
-
-/* TEXTO */
 
 small{
 

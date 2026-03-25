@@ -3,9 +3,6 @@
 class AuthController extends Controller
 {
 
-    // ============================
-    // MOSTRAR LOGIN
-    // ============================
 
     public function login()
     {
@@ -35,11 +32,6 @@ class AuthController extends Controller
     }
 
 
-
-    // ============================
-    // AUTENTICAR LOGIN
-    // ============================
-
     public function autenticar()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -65,7 +57,6 @@ class AuthController extends Controller
 
             $_SESSION['usuario'] = $usuario;
 
-            /* REGISTRAR BITACORA */
 
             $bitacora = $this->model('Bitacora');
 
@@ -95,9 +86,6 @@ class AuthController extends Controller
 
 
 
-    // ============================
-    // CERRAR SESIÓN
-    // ============================
 
     public function logout()
     {
@@ -115,10 +103,6 @@ class AuthController extends Controller
 
 
 
-    // ============================
-    // FORMULARIO REGISTRO
-    // ============================
-
     public function registro()
     {
 
@@ -130,10 +114,6 @@ class AuthController extends Controller
     }
 
 
-
-    // ============================
-    // GUARDAR USUARIO
-    // ============================
 
     public function guardarUsuario()
     {
@@ -173,10 +153,6 @@ class AuthController extends Controller
     }
 
 
-
-    // ============================
-    // RECUPERAR CONTRASEÑA
-    // ============================
 
     public function recuperar()
     {

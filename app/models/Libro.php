@@ -188,7 +188,6 @@ WHERE id_libro=:id";
 
             $this->db->beginTransaction();
 
-            /* ELIMINAR RELACIONES CON AUTORES */
 
             $sql = "DELETE FROM libro_autor
                 WHERE id_libro = :id";
@@ -198,7 +197,6 @@ WHERE id_libro=:id";
                 ':id' => $id_libro
             ]);
 
-            /* ELIMINAR LIBRO */
 
             $sql = "DELETE FROM libro
                 WHERE id_libro = :id";

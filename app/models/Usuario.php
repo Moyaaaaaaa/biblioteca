@@ -13,9 +13,6 @@ class Usuario
 
     }
 
-    // ======================
-    // LOGIN
-    // ======================
 
     public function login($username, $contrasenia)
     {
@@ -41,9 +38,6 @@ class Usuario
     }
 
 
-    // ======================
-    // CREAR USUARIO
-    // ======================
 
     public function crearUsuario(
         $nombre,
@@ -93,9 +87,6 @@ class Usuario
     }
 
 
-    // ======================
-    // LISTAR USUARIOS
-    // ======================
 
     public function todos()
     {
@@ -125,10 +116,6 @@ ORDER BY u.nombre, u.apellido_paterno";
     }
 
 
-    // ======================
-    // OBTENER USUARIO
-    // ======================
-
     public function obtenerPorId($id)
     {
 
@@ -145,10 +132,6 @@ ORDER BY u.nombre, u.apellido_paterno";
 
     }
 
-
-    // ======================
-    // ACTUALIZAR USUARIO
-    // ======================
 
     public function actualizar($id, $nombre, $ap, $am, $username, $correo, $rol)
     {
@@ -177,9 +160,6 @@ ORDER BY u.nombre, u.apellido_paterno";
     }
 
 
-    // ======================
-    // ELIMINAR USUARIO
-    // ======================
 
     public function eliminar($id)
     {

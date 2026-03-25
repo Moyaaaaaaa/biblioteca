@@ -46,7 +46,6 @@ margin-bottom:40px;
 
 }
 
-/* GRID */
 
 .categorias-grid{
 
@@ -56,7 +55,6 @@ gap:30px;
 
 }
 
-/* TARJETA */
 
 .categoria-card{
 
@@ -94,7 +92,6 @@ box-shadow:
 
 }
 
-/* ICONO */
 
 .icono{
 

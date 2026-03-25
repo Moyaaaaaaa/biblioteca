@@ -16,7 +16,6 @@ box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
 
-/* FONDO */
 
 body{
 
@@ -32,7 +31,6 @@ padding:80px;
 
 }
 
-/* CONTENEDOR */
 
 .container{
 
@@ -48,7 +46,6 @@ box-shadow:0 20px 50px rgba(0,0,0,0.08);
 
 }
 
-/* HEADER */
 
 .header{
 
@@ -60,8 +57,6 @@ margin-bottom:35px;
 
 }
 
-/* TITULO */
-
 h2{
 
 font-size:32px;
@@ -72,8 +67,6 @@ background:linear-gradient(90deg,#f59e0b,#f97316,#ef4444);
 -webkit-text-fill-color:transparent;
 
 }
-
-/* BOTON VOLVER */
 
 .volver{
 
@@ -100,8 +93,6 @@ box-shadow:0 8px 20px rgba(0,0,0,0.2);
 
 }
 
-/* LABEL */
-
 label{
 
 font-size:14px;
@@ -112,7 +103,6 @@ color:#444;
 
 }
 
-/* INPUTS */
 
 input, select{
 
@@ -141,8 +131,6 @@ border-color:#f59e0b;
 box-shadow:0 0 0 2px rgba(245,158,11,0.15);
 
 }
-
-/* BOTON */
 
 button{
 

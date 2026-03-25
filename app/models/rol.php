@@ -13,7 +13,6 @@ class Rol {
     }
 
 
-    // obtener todos los roles
     public function obtenerRoles(){
 
         $sql = "SELECT id_rol, nombre_rol FROM rol";
